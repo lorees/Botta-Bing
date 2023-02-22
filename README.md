@@ -1,2 +1,16 @@
 # Botta-Bing
-Voice to Text AI Software- Integrates several api's including ChatGPT
+Voice to Text AI Software - Integrates several api's including ChatGPT, OpenWeatherMaps.org, NewsData.io, Google Cloud
+Once installled you can simply speak to the Botta-Bing app and it will answer you back verbally.
+
+Here are some commands, Just Say:
+Computer, My Weather. # Current Weather for your Zip Code. Zip Code is specified in ther weather.sh file 
+Computer, My day. or Computer, my date. # Will give back the current Date 
+Computer, My time. # Will give back the current Time.
+Computer, Weather for zip code XXXXX. # Will give back weather for Zip Code specified 
+Computer, Play Jeopardy. # Will read back a Jeopardy Question.
+Computer, Make me laugh. # Will read back a Joke chosen by Botta Bing
+Computer, Random News. # Will read back a news story chosen by Botta Bing
+Computer, Talk Smack. or Computer, Talk Nasty. # Will say something to repel.
+Computer, We Have a Problem. # Will Chase someone off. 
+Computer, Emergency Emergency. # Will play an Emergency Notification.
+Computer, {Incert your Question}. # Will reach out to ChatGPT for an Answer

@@ -1,6 +1,7 @@
+
 # Botta-Bing - Make Your Bot Talk!
 ```
-Author: Loree Sebastien
+Author: Loree S.
 Date: Febuary 22nd 2023
 Email: lorees35@gmail.com
 ```
@@ -84,3 +85,23 @@ https://platform.openai.com/account/api-keys
 
 Edit the **"params"** file in the root directory with you updated API Keys.
 **Please Return To The Install Instructions.**
+
+## More Information
+*To Start Your Vagrant Instance Please use the command line. If you just start the box the mapped "/vagrant" folder will not be available.* 
+***cd the downloaded "Botta-Bing" Folder***
+- To Start your "Botta-Bing" Vagrant instance **RUN:** vagrant up
+- To Restart your "Botta-Bing" Vagrant instance **RUN:** vagrant reload 
+- To Turn-Off your "Botta-Bing" Vagrant instance **RUN:** vagrant halt 
+- To Delete your "Botta-Bing" Vagrant instance **RUN:** vagrant destroy
+
+## Troubleshooting
+- My Bot is talking too slow - This is a system resource problem. If you are running VirtualBox and Vagrant add memory or additional cpus. 
+- My Bot is talking too fast - This is a system resource problem. If you are running VirtualBox and Vagrant reduce memory or additional cpus. 
+- My Bot is talking too low - Raise the volume on your computer
+- My Bot can't hear me - Test your microphone. An amplified Microphone with an on\off switch works best.
+- Do I have to say "Computer" all the time? Yes and No. The listener in Botta-Bing wakes up when it hears sound so you can say something else like. "Machine" or "Moca," or "Bot" or "Peter" etc. Practice with the name of your choosing.
+- I can't get weather or news or it won't transcribe my voice info - There is a problem with your api keys. Check to see if they are entered correctly in the "params" file.  If there is a transcription error re-run "gcloud init" from the command line
+
+#### Thank you ! Enjoy!
+#### Sincerely,
+##### Loree S.

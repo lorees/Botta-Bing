@@ -27,7 +27,6 @@ ANSWER = "false"
 
 Vagrant.configure("2") do |vm_config|
   vm_config.vm.provider "virtualbox" 
-  vm_config.env.enable # enable the plugin  save inportant info to .env file
   vm_config.vm.box =  VAGRANT_BOX
   vm_config.vbguest.auto_update = ANSWER
   vm_config.vm.hostname = "botta-bing"
@@ -44,7 +43,7 @@ Vagrant.configure("2") do |vm_config|
       vb_config.customize ["modifyvm", :id, "--vram", 64]
       vb_config.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
       vb_config.customize ["modifyvm", :id, "--cpus", "4"]
-      vb_config.customize ["modifyvm", :id, "--memory", 4096
+      vb_config.customize ["modifyvm", :id, "--memory", 4096]
       vb_config.customize ["modifyvm", :id, "--usb", "off"]
       vb_config.customize ["modifyvm", :id, "--ioapic", "on"]
       vb_config.customize ["modifyvm", :id, "--accelerate-3d", "on"]

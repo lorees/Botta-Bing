@@ -58,7 +58,7 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
   3. Confirm that you have 4 gigs of memory available on your Windows PC
   4. Download this Git Repo & unzip it
   5. Move to the root directory 
-  6. **RUN:** ./vagrant_win.sh
+  6. **RUN:** ./vagrant_win.bat
   7. Depending on your machine it may take 30+ mins to complete
   8. Once Completed **RUN:** "vagrant reload". (The virtual machine's desktop should be visible.
   9. Login to Virtual machine.  Password is "vagrant".

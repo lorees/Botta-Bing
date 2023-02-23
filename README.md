@@ -31,7 +31,7 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
  3. pip3 install gTTS   
  4. Get Google Cloud installer from:
     https://cloud.google.com/sdk/docs/install   
- 5.  Download this git repo
+ 5.  Download this git repo & unzip it
     and unzip to a working directory   
  6. From here you can move on to the **"Loading API Keys Section"**.
  7. Make sure you load your API Keys into the **"params"* file in the root directory
@@ -41,7 +41,7 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
   1. First Install VirtualBox - If you have an older version please upgrade to the most recent version http://virtualbox.org
   2. Install vagrant (a provisioner for Virtualbox) http://vagrantup.com
   3. Confirm that you have 4 gigs of memory available on your MAC
-  4. Download this Git Repo
+  4. Download this Git Repo & unzip it
   5. Move to the root directory 
   6. **RUN:** ./vagrant_mac.sh
   7. Depending on your machine it may take 30+ mins to complete.
@@ -56,7 +56,7 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
   1. First Install VirtualBox - If you have an older version please upgrade to the most recent version http://virtualbox.org
   2. Install vagrant (a provisioner for Virtualbox) http://vagrantup.com
   3. Confirm that you have 4 gigs of memory available on your Windows PC
-  4. Download this Git Repo
+  4. Download this Git Repo & unzip it
   5. Move to the root directory 
   6. **RUN:** ./vagrant_win.sh
   7. Depending on your machine it may take 30+ mins to complete

@@ -1,0 +1,72 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Virtualbox Requirements
+required_plugins = %w(vagrant-vbguest)
+
+plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
+if not plugins_to_install.empty?
+  puts "Installing plugins: #{plugins_to_install.join(' ')}"
+  if system "vagrant plugin install #{plugins_to_install.join(' ')}"
+    exec "vagrant #{ARGV.join(' ')}"
+  else
+    abort "Installation of one or more plugins has failed. Aborting."
+  end
+end
+
+# Instance Types
+# t2.nano t2.micro t2.small t2.medium t2.large
+
+# Blank Amazon Linux
+MACHINE_NAME = "Botta-Bing"
+
+# Ubuntu 20.04
+VAGRANT_BOX="bento/ubuntu-20.04"
+
+# Vb Guest Checking
+ANSWER = "false"
+
+Vagrant.configure("2") do |vm_config|
+  vm_config.vm.provider "virtualbox" 
+  vm_config.vm.box =  VAGRANT_BOX
+  vm_config.vbguest.auto_update = ANSWER
+  vm_config.vm.hostname = "botta-bing"
+  vm_config.vm.define "workstation" do |config_machine|
+    ############## File Defaults to NAT Network ################
+    vm_config.vm.network "public_network", type: "dhcp"
+    ############################################################
+    # Virtualbox specific settings
+    vm_config.vm.provider "virtualbox" do |vb_config,override|
+      vb_config.gui = false
+      #vb_config.customize ["modifyvm", :id, "--audio", "none"]
+      vb_config.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
+      vb_config.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
+      vb_config.customize ["modifyvm", :id, "--vram", 64]
+      vb_config.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
+      vb_config.customize ["modifyvm", :id, "--cpus", "2"]
+      vb_config.customize ["modifyvm", :id, "--memory", 3078]
+      vb_config.customize ["modifyvm", :id, "--usb", "off"]
+      vb_config.customize ["modifyvm", :id, "--ioapic", "on"]
+      vb_config.customize ["modifyvm", :id, "--accelerate-3d", "on"]
+      vb_config.customize ["modifyvm", :id, "--audio", "coreaudio"]
+      vb_config.customize ["modifyvm", :id, "--audio-in", "on"]
+      vb_config.customize ["modifyvm", :id, "--audio-out", "on"]
+      vb_config.customize ["modifyvm", :id, "--audiocontroller", "ac97"]
+      vb_config.customize ["modifyvm", :id, "--natdnsproxy1", "off"]
+      vb_config.customize ["modifyvm", :id, "--natdnshostresolver1", "off"]
+      vb_config.name = MACHINE_NAME
+
+      override.ssh.username = "vagrant"
+      override.vm.provision 'shell', inline: "sudo apt-get install linux-headers-5.4.0-139 -y"
+      override.vm.provision 'shell', inline: "sudo apt update -y && sudo apt upgrade -y && sudo apt install ubuntu-desktop -y"
+      override.vm.provision 'shell', inline: "sudo timedatectl set-timezone America/New_York"
+      override.vm.provision 'shell', inline: "sudo apt install python3-pip cmake -y"
+      override.vm.provision 'shell', inline: "sudo apt install nano tar curl wget build-essential jq bc dos2unix sox mpg123 -y"
+      override.vm.provision 'shell', inline: "sudo apt-get install apt-transport-https ca-certificates gnupg -y"
+      override.vm.provision 'shell', inline: "echo 'deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main' | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list"
+      override.vm.provision 'shell', inline: "curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -"
+      override.vm.provision 'shell', inline: "sudo apt-get update && sudo apt-get install google-cloud-cli -y"
+      override.vm.provision 'shell', inline: "pip3 install gTTS"
+      override.vm.provision 'shell', inline: "sudo apt remove ufw -y"
+    end
+  end
+end

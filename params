@@ -1,0 +1,6 @@
+export ZIP="11433"; # Change to your zip code
+export COUNTRY_CODE="US"; # Country
+export LOCALIZATION="com.au"; # (us, co.uk, com.au, co.in)Speaking Accent https://gtts.readthedocs.io/en/latest/module.html#localized-accents
+export WEATHER_APPID="7bf0529d283704637383099e4ad86266"; # OpenWeatherWeather
+export NEWS_API="pub_17581747eff7354b744628a793460d2dd31da"; # newsdata.io API
+export OPENAI_API_KEY="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"; # ChatGPT API

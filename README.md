@@ -6,7 +6,7 @@ Email: lorees35@gmail.com
 ```
 Botta-Bing in a nutshell is Text to Speech AI Information Tool. It is driven by natural language AI technology processing Voice to Text with information integrations and corrections from popular API's including like: **ChatGPT, OpenWeatherMaps.org, NewsData.io, Google Cloud**.
 
-Once installed, you can simply speak to the **Botta-Bing** app and it will answer you back in its own conversational style. This project was created to integrate with the **"Micro Mini Monster"** and the **"Megha Monster"** line of Rovers. However it will work as a standalone **Text to Speech AI Information Tool.** 
+Once installed, you can simply speak to the **Botta-Bing** app and it will answer you back in its own conversational style. This project was created to integrate with the **"Micro Mini Monster"** and the **"Megha Monster"** line of SpyBots and Computer Enabled Rovers. However it will work as a standalone **Text to Speech AI Information Tool.** 
 
 **Learn More:**
 https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s

@@ -67,7 +67,7 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
   12. Make Sure to Update your Zip Code in the **"params"** file also.
   13. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop . You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
 
-##Loading API Keys
+## Loading API Keys
 Once the basic software packages are installed you need to obtain API Keys from the Below list if resources. First create a login and then either copy or create the keys for the below list:
 
 **GET: Google Developer - API Key**

@@ -4,7 +4,7 @@ Author: Loree Sebastien
 Date: Febuary 22nd 2023
 Email: lorees35@gmail.com
 ```
-Botta-Bing in a nutshell is Text to Speech AI Information Tool. It is driven by natural language AI technology processing Voice to Text with information integrations and corrections from popular API's including like: **ChatGPT, OpenWeatherMaps.org, NewsData.io, Google Cloud**.
+Botta-Bing in a nutshell is Text to Speech AI Information Tool. It is driven by natural language AI technology processing Voice to Text with information integrations and corrections from popular API's including: **ChatGPT, OpenWeatherMaps.org, NewsData.io, Google Cloud**.
 
 Once installed, you can simply speak to the **Botta-Bing** app and it will answer you back in its own conversational style. This project was created to integrate with the **"Micro Mini Monster"** and the **"Megha Monster"** line of SpyBots and Computer Enabled Rovers. However it will work as a standalone **Text to Speech AI Information Tool.** 
 
@@ -42,8 +42,8 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
   2. Install vagrant (a provisioner for Virtualbox) http://vagrantup.com
   3. Confirm that you have 4 gigs of memory available on your MAC
   4. Download this Git Repo & unzip it
-  5. Move to the root directory 
-  6. **RUN:** ./vagrant_mac.sh
+  5. Move to the root directory and copy "Vagrantfile-mac" file over as "Vagrantfile"
+  6. **RUN:** "vagrant up"
   7. Depending on your machine it may take 30+ mins to complete.
   8. Once Completed **RUN:** "vagrant reload". (The virtual machine's desktop should be visible.
   9. Login to Virtual machine.  Password is "vagrant".
@@ -57,8 +57,8 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
   2. Install vagrant (a provisioner for Virtualbox) http://vagrantup.com
   3. Confirm that you have 4 gigs of memory available on your Windows PC
   4. Download this Git Repo & unzip it
-  5. Move to the root directory 
-  6. **RUN:** ./vagrant_win.bat
+  5. Move to the root directory and copy "Vagrantfile-Win" file over as "Vagrantfile" 
+  6. **RUN:** "vagrant up"
   7. Depending on your machine it may take 30+ mins to complete
   8. Once Completed **RUN:** "vagrant reload". (The virtual machine's desktop should be visible.
   9. Login to Virtual machine.  Password is "vagrant".

@@ -74,6 +74,7 @@ Once the basic software packages are installed you need to obtain API Keys from 
 
 **GET: Google Developer - API Key**
 https://console.cloud.google.com/projectselector2/google/maps-apis
+- Enable: Cloud Speech-to-Text API
 
 **GET: Openweather Maps - API Key**
 https://home.openweathermap.org/api_keys

@@ -9,9 +9,10 @@ Botta-Bing in a nutshell is Text to Speech AI Information Tool. It is driven by 
 
 Once installed, you can simply speak to the **Botta-Bing** app and it will answer you back in its own conversational style. This project was created to integrate with the **"Micro Mini Monster"** and the **"Megha Monster"** line of SpyBots and Computer Enabled Rovers. However it will work as a standalone **Text to Speech AI Information Tool.** 
 
-**Learn More:**
+**Learn More: Our Bots**
 https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
-
+**Learn More: Install Bota-Bing**
+https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
 # Here Are Some Commands, Just Say
 - **Computer, My Weather. or Computer, Local Weather.** # Current Weather for your Zip Code. Zip Code is specified in ther weather.sh file 
 - **Computer, My day. or Computer, my date.** # Will give back the current Date 

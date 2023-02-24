@@ -33,6 +33,8 @@ Vagrant.configure("2") do |vm_config|
   vm_config.vm.define "workstation" do |config_machine|
     ############## File Defaults to NAT Network ################
     vm_config.vm.network "public_network", type: "dhcp"
+    # vm_config.vm.network "public_network", bridge: "en0: Wi-Fi (AirPort)" # MAC
+    # vm_config.vm.network "public_network", bridge: "Dell Wireless 1703 802.11b|g|n (2.4GHz)" # Windows
     ############################################################
     # Virtualbox specific settings
     vm_config.vm.provider "virtualbox" do |vb_config,override|

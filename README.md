@@ -37,7 +37,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
     and unzip to a working directory   
  6. From here you can move on to the **"Loading API Keys Section"**.
  7. Make sure you load your API Keys into the **"params"** file in the root directory
- 8. Make sure you enable the 'Google Text To Speech" API. https://console.cloud.google.com/
+ 8. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
  9. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". You will be prompted to link your newly created API key to the SDK. 
   
 ### Mac (VirtualBox \ Vagrant)
@@ -53,7 +53,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
   10. From here you can move on to the **"Loading API Keys Section"**. 
  11. Make sure you load your API Keys into the **"params"** file in the root directory
  12. Make Sure to Update your Zip Code in the **"params"** file also.
- 13. Make sure you enable the 'Google Text To Speech" API. https://console.cloud.google.com/
+ 13. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
  14. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop. You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
   
 ### Windows (VirtualBox \ Vagrant)
@@ -69,7 +69,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
   10. From here you can move on to the **"Loading API Keys Section"**.
   11. Make sure you load your API Keys into the **"params"** file in the root directory
   12. Make Sure to Update your Zip Code in the **"params"** file also.
-  13. Make sure you enable the 'Google Text To Speech" API. https://console.cloud.google.com/
+  13. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
   14. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop . You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
 
 ## Loading API Keys

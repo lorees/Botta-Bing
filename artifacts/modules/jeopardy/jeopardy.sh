@@ -5,7 +5,7 @@
 # An example of how to use datasets presented in CSV format;
 
 # Variables
-source ../../../params;
+source params;
 JEOPARDY_CONFIG="artifacts/modules/jeopardy/JEOPARDY_CSV.csv";
 OUTPUT_FILE="artifacts/modules/jeopardy/question.csv";
 

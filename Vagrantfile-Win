@@ -37,10 +37,10 @@ Vagrant.configure("2") do |vm_config|
     vm_config.vm.provider "virtualbox" do |vb_config,override|
       vb_config.gui = false
       vb_config.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-      vb_config.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
-      vb_config.customize ["modifyvm", :id, "--vram", 64]
+      vb_config.customize ["modifyvm", :id, "--cpuexecutioncap", "90"]
+      vb_config.customize ["modifyvm", :id, "--vram", 48]
       vb_config.customize ["modifyvm", :id, "--graphicscontroller", "vboxvga"]
-      vb_config.customize ["modifyvm", :id, "--cpus", "4"]
+      vb_config.customize ["modifyvm", :id, "--cpus", "2"]
       vb_config.customize ["modifyvm", :id, "--memory", 4096]
       vb_config.customize ["modifyvm", :id, "--usb", "off"]
       vb_config.customize ["modifyvm", :id, "--ioapic", "on"]

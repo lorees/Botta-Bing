@@ -36,7 +36,6 @@ Vagrant.configure("2") do |vm_config|
     # Virtualbox specific settings
     vm_config.vm.provider "virtualbox" do |vb_config,override|
       vb_config.gui = false
-      #vb_config.customize ["modifyvm", :id, "--audio", "none"]
       vb_config.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
       vb_config.customize ["modifyvm", :id, "--cpuexecutioncap", "100"]
       vb_config.customize ["modifyvm", :id, "--vram", 64]

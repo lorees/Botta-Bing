@@ -24,7 +24,6 @@ ANSWER = "false"
 
 Vagrant.configure("2") do |vm_config|
   vm_config.vm.provider "virtualbox" 
-  vm_config.env.enable # enable the plugin  save inportant info to .env file
   vm_config.vm.box =  VAGRANT_BOX
   vm_config.vbguest.auto_update = ANSWER
   vm_config.vm.hostname = "botta-bing"

@@ -29,7 +29,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
 # Getting Started
 ### Mac (Install Locally)
  1. Use Brew And Pip3 to Install Packages   
- 2. brew install jq mpg123 curl   
+ 2. brew install jq mpg123 curl vlc  
  3. pip3 install gTTS   
  4. Get Google Cloud installer from:
     https://cloud.google.com/sdk/docs/install   

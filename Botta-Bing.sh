@@ -1,4 +1,5 @@
 #!/usr/bin/env bash 
+# Loree Sebastien 2/20/2023
 # PART 1
 # install gcloud utilty
 # https://cloud.google.com/sdk/docs/install

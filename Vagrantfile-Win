@@ -13,9 +13,6 @@ if not plugins_to_install.empty?
   end
 end
 
-# Instance Types
-# t2.nano t2.micro t2.small t2.medium t2.large
-
 # Blank Amazon Linux
 MACHINE_NAME = "Botta-Bing"
 

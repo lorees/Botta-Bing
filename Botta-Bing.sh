@@ -53,7 +53,7 @@ function LISTEN_TRANSCRIBE {
     sleep 1
     until [ "$var1" != "$var2" ]; do
         var1=`du "${WAV_FILE}"`;
-        sleep 2;
+        sleep 1;
         var2=`du "${WAV_FILE}"`;
     done
     echo "Sound Detected"
@@ -177,7 +177,7 @@ function CALL_MODULES {
         WE_HAVE_A_PROBLEM;
     elif [[ $QUESTION == *"alk nast"* ]] || [[ $QUESTION == *"alk Nast"* ]] || [[ $QUESTION == *"alk smack"* ]] || [[ $QUESTION == *"alk Smack"* ]]; then 
         TALK_SMACK;
-    elif [ $QUESTION == "null" ]; then 
+    elif [[ $QUESTION == "null" ]]; then 
         greeting_file_name="Heard_Nothing.mp3";
         gtts-cli "Please Repeat, I Don't Think I Heard You Properly." --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
         mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 

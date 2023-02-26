@@ -515,7 +515,7 @@ function CLEAN_UP {
     # play ready prompt
     # mpg123 -f -7500 "artifacts/sounds/jetsons-doorbell.mp3"; # Jetson's Doorbell
     mpg123 -q -f -7500 "artifacts/modules/sounds/magic.mp3"; # Nice Chime
-    rm -f cweather *.png;
+    rm -f *.png;
     
     # Clear Resources
     history -p;

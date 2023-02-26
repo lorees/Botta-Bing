@@ -41,7 +41,7 @@ function MEET_GREET {
     # Now Listening Message
     greeting_file_name="listening.mp3";
     gtts-cli "Good ${TIME_GREETING}, What can I help you with?" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q ${greeting_file_name} && rm -f ${greeting_file_name}; 
+    mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
 
 function LISTEN_TRANSCRIBE {
@@ -111,7 +111,7 @@ function ANSWER_QUESTION {
     # Information Credits
     greeting_file_name="info_provied_by.mp3";
     gtts-cli "This Information Was Provided By ChatGPT." --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q ${greeting_file_name} && rm -f ${greeting_file_name}; 
+    mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
     READ_RESPONSE;
 
     # Print Question and Answer
@@ -180,7 +180,7 @@ function CALL_MODULES {
     elif [ $QUESTION == "null" ]; then 
         greeting_file_name="Heard_Nothing.mp3";
         gtts-cli "Please Repeat, I Don't Think I Heard You Properly." --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-        mpg123 -q ${greeting_file_name} && rm -f ${greeting_file_name}; 
+        mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
     else 
         SEND_TO_CHATGPT;
     fi
@@ -356,8 +356,8 @@ function MAKE_COMMENTS {
     # GoodBye Message
     greeting_file_name="helpful.mp3";
     gtts-cli "HEY! ${ALL_REMARKS[$R_COMMENT]}" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 artifacts/modules/sounds/chime.mp3;
-    mpg123 -q ${greeting_file_name} && rm -f ${greeting_file_name}; 
+    mpg123 -q "artifacts/modules/sounds/chime.mp3";
+    mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
 
 function TALK_SMACK {
@@ -380,9 +380,9 @@ function TALK_SMACK {
     
     # GoodBye Message
     greeting_file_name="rude.mp3";
-    mpg123 -q artifacts/modules/sounds/beep-05.mp3;
+    mpg123 -q "artifacts/modules/sounds/beep-05.mp3";
     gtts-cli "HELLO! HI! ${ALL_REMARKS[$R_COMMENT]}" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q ${greeting_file_name} && rm -f ${greeting_file_name}; 
+    mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
 
 function MAKE_JOKES {
@@ -406,7 +406,7 @@ function MAKE_JOKES {
     # Tell a Joke
     greeting_file_name="jokes.mp3";
     gtts-cli "HERE IS A JOKE FOR YOU. ${ALL_JOKES[$FIND_JOKE]}  " --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q ${greeting_file_name} && mpg123 -q artifacts/modules/sounds/very-infectious-laughter-117727.mp3 && rm -f ${greeting_file_name}; 
+    mpg123 -q ${greeting_file_name} && mpg123 -q "artifacts/modules/sounds/very-infectious-laughter-117727.mp3" && rm -f "${greeting_file_name}"; 
 }
 
 function ON_HOLD_MESSAGE {
@@ -431,7 +431,7 @@ function ON_HOLD_MESSAGE {
     greeting_file_name="please_wait.mp3";
     # gtts-cli "HERE IS YOUR JOKE!" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
     gtts-cli "${ALL_CONFIRM[$FIND_CONFIRMATION]}  " --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q ${greeting_file_name} && rm -f ${greeting_file_name}; 
+    mpg123 -q ${greeting_file_name} && rm -f "${greeting_file_name}"; 
 }
 
 function READ_NEWS {

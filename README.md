@@ -1,6 +1,7 @@
+
 # Botta-Bing - Make Your Bot Talk!
 ```
-Author: Loree Sebastien
+Author: Loree S.
 Date: Febuary 22nd 2023
 Email: lorees35@gmail.com
 ```
@@ -8,9 +9,10 @@ Botta-Bing in a nutshell is Text to Speech AI Information Tool. It is driven by 
 
 Once installed, you can simply speak to the **Botta-Bing** app and it will answer you back in its own conversational style. This project was created to integrate with the **"Micro Mini Monster"** and the **"Megha Monster"** line of SpyBots and Computer Enabled Rovers. However it will work as a standalone **Text to Speech AI Information Tool.** 
 
-**Learn More:**
+- **Learn More: Our Bots**
 https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
-
+- **Learn More: Install Bota-Bing**
+https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
 # Here Are Some Commands, Just Say
 - **Computer, My Weather. or Computer, Local Weather.** # Current Weather for your Zip Code. Zip Code is specified in ther weather.sh file 
 - **Computer, My day. or Computer, my date.** # Will give back the current Date 
@@ -34,8 +36,9 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
  5.  Download this git repo & unzip it
     and unzip to a working directory   
  6. From here you can move on to the **"Loading API Keys Section"**.
- 7. Make sure you load your API Keys into the **"params"* file in the root directory
-  8. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". You will be prompted to link your newly created API key to the SDK. 
+ 7. Make sure you load your API Keys into the **"params"** file in the root directory
+ 8. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
+ 9. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". You will be prompted to link your newly created API key to the SDK. 
   
 ### Mac (VirtualBox \ Vagrant)
   1. First Install VirtualBox - If you have an older version please upgrade to the most recent version http://virtualbox.org
@@ -50,7 +53,8 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
   10. From here you can move on to the **"Loading API Keys Section"**. 
  11. Make sure you load your API Keys into the **"params"** file in the root directory
  12. Make Sure to Update your Zip Code in the **"params"** file also.
- 13. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop. You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
+ 13. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
+ 14. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop. You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
   
 ### Windows (VirtualBox \ Vagrant)
   1. First Install VirtualBox - If you have an older version please upgrade to the most recent version http://virtualbox.org
@@ -65,13 +69,15 @@ https://www.youtube.com/watch?v=8x4GLYNoKkE&t=2s
   10. From here you can move on to the **"Loading API Keys Section"**.
   11. Make sure you load your API Keys into the **"params"** file in the root directory
   12. Make Sure to Update your Zip Code in the **"params"** file also.
-  13. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop . You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
+  13. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
+  14. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop . You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
 
 ## Loading API Keys
 Once the basic software packages are installed you need to obtain API Keys from the Below list if resources. First create a login and then either copy or create the keys for the below list:
 
 **GET: Google Developer - API Key**
 https://console.cloud.google.com/projectselector2/google/maps-apis
+- Enable: Cloud Speech-to-Text API
 
 **GET: Openweather Maps - API Key**
 https://home.openweathermap.org/api_keys
@@ -84,3 +90,23 @@ https://platform.openai.com/account/api-keys
 
 Edit the **"params"** file in the root directory with you updated API Keys.
 **Please Return To The Install Instructions.**
+
+## More Information
+*To Start Your Vagrant Instance Please use the command line. If you just start the box the mapped "/vagrant" folder will not be available.* 
+***cd the downloaded "Botta-Bing" Folder***
+- To Start your "Botta-Bing" Vagrant instance **RUN:** vagrant up
+- To Restart your "Botta-Bing" Vagrant instance **RUN:** vagrant reload 
+- To Turn-Off your "Botta-Bing" Vagrant instance **RUN:** vagrant halt 
+- To Delete your "Botta-Bing" Vagrant instance **RUN:** vagrant destroy
+
+## Troubleshooting
+- My Bot is talking too slow - This is a system resource problem. If you are running VirtualBox and Vagrant add memory or additional cpus. 
+- My Bot is talking too fast - This is a system resource problem. If you are running VirtualBox and Vagrant reduce memory or additional cpus. 
+- My Bot is talking too low - Raise the volume on your computer
+- My Bot can't hear me - Test your microphone. An amplified Microphone with an on\off switch works best.
+- Do I have to say "Computer" all the time? Yes and No. The listener in Botta-Bing wakes up when it hears sound so you can say something else like. "Machine" or "Moca," or "Bot" or "Peter" etc. Practice with the name of your choosing.
+- I can't get weather or news or it won't transcribe my voice info - There is a problem with your api keys. Check to see if they are entered correctly in the "params" file.  If there is a transcription error re-run "gcloud init" from the command line
+
+#### Thank you ! Enjoy!
+#### Sincerely,
+##### Loree S.

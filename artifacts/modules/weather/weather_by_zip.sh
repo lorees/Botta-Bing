@@ -4,7 +4,7 @@
 # GET API KEY https://home.openweathermap.org/api_keys
 
 ZIP="$1";
-source ../../../params;
+source params;
 WEATHER_FILE="weather.json";
 TIME_INTERVAL="1800"; # Check Once 30mins
 

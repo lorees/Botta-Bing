@@ -26,7 +26,7 @@ NEWS_FOLDER="artifacts/news";
 # Talk
 CHAT_RESPONSE_MP3="response.mp3";
 CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";
-CHAT_LOG="../../../CHAT.log";
+CHAT_LOG="/CHAT.log";
 
 #################### Functions Begin ####################
 function RANDOME_NEWS {

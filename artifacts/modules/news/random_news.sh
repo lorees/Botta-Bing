@@ -16,11 +16,10 @@
     # world
 
 # Reference 
-source ../../../params;
-NEWS_CATEGORY="top";
+source params;
 NEWS_COUNTRIES="us"; # us,ca
-NEWS_FILE="artifacts/news/LATEST_NEWS.json";
-NEWS_CATEGORY_FILE="artifacts/news/category";
+NEWS_FILE="artifacts/modules/news/LATEST_NEWS.json";
+NEWS_CATEGORY_FILE="artifacts/modules/news/category";
 NEWS_FOLDER="artifacts/news";
 
 # Talk
@@ -29,7 +28,7 @@ CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";
 CHAT_LOG="/CHAT.log";
 
 #################### Functions Begin ####################
-function RANDOME_NEWS {
+function RANDOM_NEWS {
     NEWS_CATEGORYS=(top business food entertainment health politics science technology world);
     
     RANGE="${#NEWS_CATEGORYS[@]}";
@@ -50,18 +49,36 @@ function READ_ARTICLE {
     let "FIND_ARTICLE %= $RANGE";
 
     MY_ARTICLE=`cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].description'`;
+    MY_DESKTOP_LINK=`cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].link'`;
     ARTICLE_CATEGORY=`cat $NEWS_CATEGORY_FILE`;
     
     echo ${MY_ARTICLE} | sed 's/Read more\.\.\.//';
+    echo "LINK: ${MY_DESKTOP_LINK}";
+    ARTICLE_OPEN="";
 
-    
+    if [ $OPEN_NEWS_LINK = "true" ]; then    
+        # Will open news link on desktop 
+        OPEN_LINK;
+        ARTICLE_OPEN="The Full News article will open on your desktop";
+    fi
+
     echo "It's Time For A Short Bite For Category ${ARTICLE_CATEGORY} News." > ${CHAT_RESPONSE_FILE};
-    echo "Data Provided By, News Data dot I O." >> ${CHAT_RESPONSE_FILE};
+    echo "Data Provided By, News Data dot I O. ${ARTICLE_OPEN}" >> ${CHAT_RESPONSE_FILE};
     echo "$MY_ARTICLE" >> ${CHAT_RESPONSE_FILE};
     PROCESS_RESPONSE;
     mpg123 -q -f -10500 "artifacts/modules/sounds/this-just-in-980709-PREVIEW.mp3"
     READ_RESPONSE;
 }
+
+function OPEN_LINK {
+    # Open link on linux desktop 
+    OS_VER="/etc/os-release";
+    if [ -f $OS_VER ]; then
+        xdg-open "${MY_DESKTOP_LINK}";
+    else
+        open "${MY_DESKTOP_LINK}";
+    fi 
+ }   
 
 function PROCESS_RESPONSE {
     # Remove Old Response
@@ -84,7 +101,7 @@ function WRITE_TO_LOG {
     echo "${CHAT_RESPONSE}" >> ${CHAT_LOG};
 }
 #################### Functions End #################### 
-RANDOME_NEWS;
+RANDOM_NEWS;
 READ_ARTICLE;    
 exit;
 

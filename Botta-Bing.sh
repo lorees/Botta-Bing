@@ -1,25 +1,7 @@
 #!/usr/bin/env bash 
 # Loree Sebastien 2/20/2023
-# PART 1
-# install gcloud utilty
-# https://cloud.google.com/sdk/docs/install
-# Connect to your accunt by running gcloud init (pick and api key)
-# Gloud ML Speech https://cloud.google.com/sdk/gcloud/reference/ml/speech
-# https://cloud.google.com/sdk/gcloud/reference/ml/speech/recognize
-
-# PART 2
-# https://www.chatbot.com/docs/
-# https://platform.openai.com/examples/default-friend-chat
-
-# soX recording and playback
-# https://unix.stackexchange.com/questions/55032/end-sox-recording-once-silence-is-detected
-# https://sox.sourceforge.net/sox.html
-# https://madskjeldgaard.dk/posts/sox-tutorial-cli-tape-music/#:~:text=SoX%20is%20a%20very%20powerful,words%20in%20your%20computer's%20terminal.
-
+# Botta-Bing AI Chatbot for Robots
 # Joke Reference https://parade.com/1040121/marynliles/one-liners/
-
-# Build package
-# Build zip - zip -r Botta_Bing.zip Botta-Bing.sh artifacts/ Vagrantfile-Mac vagrant_mac.sh instructions params
 
 WAV_FILE="sound_detected.wav";
 JSON_TRANSCRIPT="transcription.json";

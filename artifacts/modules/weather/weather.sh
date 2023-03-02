@@ -3,7 +3,7 @@
 # Gets the current weather based on ZIP Code from openweather maps
 # GET API KEY https://home.openweathermap.org/api_keys
 
-source params;
+source ../../../params;
 WEATHER_FILE="weather.json";
 TIME_INTERVAL="1800"; # Check Once 30mins
 

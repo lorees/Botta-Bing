@@ -12,7 +12,7 @@ OUTPUT_FILE="artifacts/modules/jeopardy/question.csv";
 # Talk
 CHAT_RESPONSE_MP3="response.mp3";
 CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";
-CHAT_LOG="../../../CHAT.log";
+CHAT_LOG="CHAT.log";
 ################# Functions #################
 # Pick a random Question from the dataset
 function GENERATE_RANDOM_QUESTION {

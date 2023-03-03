@@ -1,6 +1,19 @@
+# USer Info - Please Adjust
 export ZIP="11433"; # Change to your zip code
 export COUNTRY_CODE="US"; # Country
+
+# Speaking Voice Accent
 export LOCALIZATION="com.au"; # (us, co.uk, com.au, co.in)Speaking Accent https://gtts.readthedocs.io/en/latest/module.html#localized-accents
+
+API KEYS
 export WEATHER_APPID="7bf0529d2837046XXXXXXXX"; # OpenWeatherWeather
 export NEWS_API="pub_17581747eff7354b744628XXXXXXX"; # newsdata.io API
 export OPENAI_API_KEY="sk-HjAcLUGhkk1vtnke9e4OT3BXXXXXX"; # ChatGPT API
+
+# Choose a Transcription Method
+# Values "OPENAI_WHISTPER" or "GOOGLE_API" for transcription. 
+# Google's is a piad service need internet. Needs an API KEY & Google Console Setup.
+# Openai's Whistper is free. Needs additional software packages. 
+# Please check the install packages section OR your Vagrantfile to confirm dependencies Or Destroy and recreate your box using this Vagrantfile
+export TRANSCRIBE="OPENAI_WHISPER"; # Only Select one
+# export TRANSCRIBE="GOOGLE_API"; # Only Select One 

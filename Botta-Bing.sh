@@ -45,22 +45,40 @@ function LISTEN_TRANSCRIBE {
     # Check for silience, if silene is detected then end recording
     until [ "$var1" == "$var2" ]; do
         var1=`du "${WAV_FILE}"`;
-        sleep 1;
+        sleep .8;
         var2=`du "${WAV_FILE}"`;
     done
     echo "Silence Detected";
     kill $p;
+  
+    # Capture output
+    ON_HOLD_MESSAGE; # On Hold Confirmation Message
+    
+    # Choose Transcription Model from "params file"
+    if [ "${TRANSCRIBE}" == "OPENAI_WHISPER" ]; then
+        OPENAI_WHISPER;  # Whisper Transcribe 
+    else
+        GOOGLE_CLOUD_TRANSCRIBE; # Google Transcription API Based
+    fi
 
+    CALL_MODULES; # Call Modules
+}
+
+# google API based transcription service. requires API keys and setup 
+function GOOGLE_CLOUD_TRANSCRIBE {
     # Transcribe Recording
     gcloud ml speech recognize ${WAV_FILE} \
         --language-code=en-US \
         --enable-automatic-punctuation \
         --filter-profanity > ${JSON_TRANSCRIPT};
-
-    # Capture output
     QUESTION=`cat ${JSON_TRANSCRIPT} | jq -r '.results[0].alternatives[0].transcript'`;
-    ON_HOLD_MESSAGE; # On Hold Confirmation Message
-    CALL_MODULES; # Call Modules
+}
+
+# New Openai Whisper Transcription - No API key Needed
+function OPENAI_WHISPER {
+    QUESTION=`whisper ${WAV_FILE} --task transcribe --model tiny.en --language en --output_format txt > /dev/null 2>&1`;
+    QUESTION=`cat ${WAV_FILE}.txt`;
+    rm -f ${WAV_FILE}.txt;
 }
 
 function SEND_TO_CHATGPT {
@@ -115,6 +133,7 @@ function PROCESS_RESPONSE {
 }
 
 function READ_RESPONSE {
+
     # For Windows use mpg123 https://www.mpg123.de/download
     mpg123 -q ${CHAT_RESPONSE_MP3};
     
@@ -135,7 +154,6 @@ function CALL_MODULES {
     # gtts-cli "I heard ${QUESTION}. Thank you, Now Checking" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
 
     GET_DATE_TIME; # Date_Time Module
-    QUESTION=$(echo $(tr '[:upper:]' '[:lower:]' <<< "$QUESTION"));
     if [[ $QUESTION == *"y day"* ]] || [[ $QUESTION == *"hat's today"* ]] || [[ $QUESTION == *"today's dat"* ]] || [[ $QUESTION == *"today's date"* ]] || [[ $QUESTION == *"y date"* ]]  || [[ $QUESTION == *"hat day is it"* ]] || [[ $QUESTION == *"hat is the day"* ]] || [[ $QUESTION == *"hat is today"* ]]  ; then
         echo "Today is the ${MY_DAY}th day of ${LONG_MONTH} in the year ${MY_YEAR}.">${CHAT_RESPONSE_FILE};
         PROCESS_RESPONSE;
@@ -146,21 +164,21 @@ function CALL_MODULES {
         READ_RESPONSE;
     elif [[ $QUESTION == *"y weather"* ]] || [[ $QUESTION == *"he weather"* ]] || [[ $QUESTION == *"hat weather"* ]] || [[ $QUESTION == *"y local weather"* ]]; then
         GET_WEATHER;
-    elif [[ $QUESTION == *"eather by city"* ]]; then
+    elif [[ $QUESTION == *"eather by city"* ]] || [[ $QUESTION == *"eather for City"* ]]; then
         GET_WEATHER_BY_CITY;
-    elif [[ $QUESTION == *"eather by zip"* ]] || [[ $QUESTION == *"eather for zip"* ]]; then
+    elif [[ $QUESTION == *"eather by zip"* ]] || [[ $QUESTION == *"eather for Zip"* ]] || [[ $QUESTION == *"eather for ZIP"* ]]; then
         GET_WEATHER_BY_ZIP;
     elif [[ $QUESTION == *"e a jok"* ]] || [[ $QUESTION == *"eed a joke"* ]] || [[ $QUESTION == *"e laugh"* ]] || [[ $QUESTION == *"tell me a funny"* ]]; then
         MAKE_JOKES;
-    elif [[ $QUESTION == *"lay jeopardy"* ]]; then
+    elif [[ $QUESTION == *"lay Jeopardy"* ]] || [[ $QUESTION == *"lay jeopardy"* ]]; then
         ./artifacts/modules/jeopardy/jeopardy.sh;
-    elif [[ $QUESTION == *"andom new"* ]]; then
+    elif [[ $QUESTION == *"andom New"* ]] || [[ $QUESTION == *"andom new"* ]]; then
         ./artifacts/modules/news/random_news.sh;
-    elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"elp help"* ]]; then
+    elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency Call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"mergency Emergency"* ]] || [[ $QUESTION == *"elp help"* ]]; then
         CALL_FOR_HELP; 
     elif [[ $QUESTION == *"e have a problem"* ]] || [[ $QUESTION == *"e Have a problem"* ]]; then 
         WE_HAVE_A_PROBLEM;
-    elif [[ $QUESTION == *"alk nast"* ]] || [[ $QUESTION == *"alk smack"* ]]; then 
+    elif [[ $QUESTION == *"alk nast"* ]] || [[ $QUESTION == *"alk Nast"* ]] || [[ $QUESTION == *"alk smack"* ]] || [[ $QUESTION == *"alk Smack"* ]]; then 
         TALK_SMACK;
     elif [[ $QUESTION == *"lay podcast"* ]] || [[ $QUESTION == *"lay a podcast"* ]] || [[ $QUESTION == *"lay my podcast"* ]]; then 
         ./artifacts/modules/podcasts/play_podcasts.sh;
@@ -174,47 +192,6 @@ function CALL_MODULES {
         SEND_TO_CHATGPT;
     fi
 }
-
-# Modules 
-# function CALL_MODULES {     
-#     # Read back what you heard
-#     # gtts-cli "I heard ${QUESTION}. Thank you, Now Checking" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-
-#     GET_DATE_TIME; # Date_Time Module
-#     if [[ $QUESTION == *"y day"* ]] || [[ $QUESTION == *"hat's today"* ]] || [[ $QUESTION == *"today's dat"* ]] || [[ $QUESTION == *"today's date"* ]] || [[ $QUESTION == *"y date"* ]]  || [[ $QUESTION == *"hat day is it"* ]] || [[ $QUESTION == *"hat is the day"* ]] || [[ $QUESTION == *"hat is today"* ]]  ; then
-#         echo "Today is the ${MY_DAY}th day of ${LONG_MONTH} in the year ${MY_YEAR}.">${CHAT_RESPONSE_FILE};
-#         PROCESS_RESPONSE;
-#         READ_RESPONSE;
-#     elif [[ $QUESTION == *"y time"* ]] || [[ $QUESTION == *"he time"* ]] || [[ $QUESTION == *"hat time is"* ]]; then
-#         echo "The current time is: $MY_HOUR:$MY_MIN $SUFFIX">${CHAT_RESPONSE_FILE};
-#         PROCESS_RESPONSE;
-#         READ_RESPONSE;
-#     elif [[ $QUESTION == *"y weather"* ]] || [[ $QUESTION == *"he weather"* ]] || [[ $QUESTION == *"hat weather"* ]] || [[ $QUESTION == *"y local weather"* ]]; then
-#         GET_WEATHER;
-#     elif [[ $QUESTION == *"eather by city"* ]] || [[ $QUESTION == *"eather for City"* ]]; then
-#         GET_WEATHER_BY_CITY;
-#     elif [[ $QUESTION == *"eather by zip"* ]] || [[ $QUESTION == *"eather for Zip"* ]] || [[ $QUESTION == *"eather for ZIP"* ]]; then
-#         GET_WEATHER_BY_ZIP;
-#     elif [[ $QUESTION == *"e a jok"* ]] || [[ $QUESTION == *"eed a joke"* ]] || [[ $QUESTION == *"e laugh"* ]] || [[ $QUESTION == *"tell me a funny"* ]]; then
-#         MAKE_JOKES;
-#     elif [[ $QUESTION == *"lay Jeopardy"* ]] || [[ $QUESTION == *"lay jeopardy"* ]]; then
-#         ./artifacts/modules/jeopardy/jeopardy.sh;
-#     elif [[ $QUESTION == *"andom New"* ]] || [[ $QUESTION == *"andom new"* ]]; then
-#         ./artifacts/modules/news/random_news.sh;
-#     elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency Call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"mergency Emergency"* ]] || [[ $QUESTION == *"elp help"* ]]; then
-#         CALL_FOR_HELP; 
-#     elif [[ $QUESTION == *"e have a problem"* ]] || [[ $QUESTION == *"e Have a problem"* ]]; then 
-#         WE_HAVE_A_PROBLEM;
-#     elif [[ $QUESTION == *"alk nast"* ]] || [[ $QUESTION == *"alk Nast"* ]] || [[ $QUESTION == *"alk smack"* ]] || [[ $QUESTION == *"alk Smack"* ]]; then 
-#         TALK_SMACK;
-#     elif [[ $QUESTION == "null" ]]; then 
-#         greeting_file_name="Heard_Nothing.mp3";
-#         gtts-cli "Please Repeat, I Don't Think I Heard You Properly." --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-#         mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
-#     else 
-#         SEND_TO_CHATGPT;
-#     fi
-# }
 
 function GET_DATE_TIME {
     # Variables Time & Date
@@ -460,7 +437,7 @@ function ON_HOLD_MESSAGE {
     let "FIND_CONFIRMATION %= $RANGE";
 
     # Make a  Random Comment.
-    echo && echo "WAIT MESSAGE: ${ALL_CONFIRM[$FIND_CONFIRMATION]}";
+    echo && echo "WAIT MESSAGE: ${ALL_CONFIRM[$FIND_CONFIRMATION]}" && echo;
     
     # Hold Message
     greeting_file_name="please_wait.mp3";
@@ -543,7 +520,7 @@ function WRITE_TO_LOG {
 }
 
 function CLEAN_UP {
-    WRITE_TO_LOG;
+    WRITE_TO_LOG; 
     # Remove Extra Files
     rm -f ${OUTPUT_FILE} ${CHAT_RESPONSE_MP3} ${CHAT_RESPONSE_FILE} ${WAV_FILE} ${JSON_TRANSCRIPT};
     

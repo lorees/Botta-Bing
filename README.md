@@ -31,14 +31,15 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
  1. Use Brew And Pip3 to Install Packages   
  2. brew install jq mpg123 curl vlc  
  3. pip3 install gTTS   
- 4. Get Google Cloud installer from:
+ 4. pip3 install -U openai-whisper  (needs python version lower than 3.11 - run python --version first)
+ 5. Get Google Cloud installer from:
     https://cloud.google.com/sdk/docs/install   
- 5.  Download this git repo & unzip it
+ 6.  Download this git repo & unzip it
     and unzip to a working directory   
- 6. From here you can move on to the **"Loading API Keys Section"**.
- 7. Make sure you load your API Keys into the **"params"** file in the root directory
- 8. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
- 9. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". You will be prompted to link your newly created API key to the SDK. 
+ 7. From here you can move on to the **"Loading API Keys Section"**.
+ 8. Make sure you load your API Keys into the **"params"** file in the root directory
+ 9. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
+ 10. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". You will be prompted to link your newly created API key to the SDK. 
   
 ### Mac (VirtualBox \ Vagrant)
   1. First Install VirtualBox - If you have an older version please upgrade to the most recent version http://virtualbox.org
@@ -48,7 +49,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
   5. Move to the root directory and copy "Vagrantfile-mac" file over as "Vagrantfile"
   6. **RUN:** "vagrant up"
   7. Depending on your machine it may take 30+ mins to complete.
-  8. Once Completed **RUN:** "vagrant reload". (The virtual machine's desktop should be visible.
+  8. Once Completed **RUN:** "vagrant reload". (The virtual machine's desktop should be visible).
   9. Login to Virtual machine.  Password is "vagrant".
   10. From here you can move on to the **"Loading API Keys Section"**. 
  11. Make sure you load your API Keys into the **"params"** file in the root directory
@@ -64,7 +65,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
   5. Move to the root directory and copy "Vagrantfile-Win" file over as "Vagrantfile" 
   6. **RUN:** "vagrant up"
   7. Depending on your machine it may take 30+ mins to complete
-  8. Once Completed **RUN:** "vagrant reload". (The virtual machine's desktop should be visible.
+  8. Once Completed **RUN:** "vagrant reload". (The virtual machine's desktop should be visible).
   9. Login to Virtual machine.  Password is "vagrant".
   10. From here you can move on to the **"Loading API Keys Section"**.
   11. Make sure you load your API Keys into the **"params"** file in the root directory
@@ -75,7 +76,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
 ## Loading API Keys
 Once the basic software packages are installed you need to obtain API Keys from the Below list if resources. First create a login and then either copy or create the keys for the below list:
 
-**GET: Google Developer - API Key**
+**GET: Google Developer - API Key**   -- MAY NOT NEED THIS - IF you use OpenAI Transcription. See Params file for more info.
 https://console.cloud.google.com/projectselector2/google/maps-apis
 - Enable: Cloud Speech-to-Text API
 

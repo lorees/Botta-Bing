@@ -16,7 +16,7 @@
     # world
 
 # Reference 
-source ../../../params;
+source params;
 NEWS_CATEGORY="top";
 NEWS_COUNTRIES="us"; # us,ca
 NEWS_FILE="artifacts/news/LATEST_NEWS.json";
@@ -26,7 +26,7 @@ NEWS_FOLDER="artifacts/news";
 # Talk
 CHAT_RESPONSE_MP3="response.mp3";
 CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";
-CHAT_LOG="../../../CHAT.log";
+CHAT_LOG="CHAT.log";
 
 #################### Functions Begin ####################
 function CHOOSE_CATEGORY {
@@ -95,5 +95,3 @@ function WRITE_TO_LOG {
 GET_TOP_NEWS;
 READ_ARTICLE;    
 exit;
-
-

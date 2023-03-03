@@ -15,5 +15,5 @@ export OPENAI_API_KEY="sk-HjAcLUGhkk1vtnke9e4OT3BXXXXXX"; # ChatGPT API
 # Google's is a piad service need internet. Needs an API KEY & Google Console Setup.
 # Openai's Whistper is free. Needs additional software packages. 
 # Please check the install packages section OR your Vagrantfile to confirm dependencies Or Destroy and recreate your box using this Vagrantfile
-export TRANSCRIBE="OPENAI_WHISPER"; # Only Select one
-# export TRANSCRIBE="GOOGLE_API"; # Only Select One 
+# export TRANSCRIBE="OPENAI_WHISPER"; # Only Select one
+export TRANSCRIBE="GOOGLE_API"; # Only Select One 

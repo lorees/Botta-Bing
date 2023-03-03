@@ -8,15 +8,10 @@ JSON_TRANSCRIPT="transcription.json";
 TIMEOUT="7";
 CHAT_LOG="CHAT.log";
 LINE="------------------------------";
-TIME_ZONE='Eastern Standard Time';
 
 # Variables - Answer Query 
 source params;
 AI_URL="https://api.openai.com/v1/completions";
-OUTPUT_FILE="chat_response.json";
-CHAT_RESPONSE_MP3="response.mp3";
-CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";
-
 ################# Functions Begin #################
 function MEET_GREET {
     clear;
@@ -24,7 +19,7 @@ function MEET_GREET {
     rm -rf cweather && ./artifacts/modules/weather/weather.sh; # Get local weather and cache it
     # Now Listening Message
     greeting_file_name="listening.mp3";
-    gtts-cli "Good ${TIME_GREETING} ${OWNER_NAME}, What can I help you with?" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    gtts-cli "Good ${TIME_GREETING} ${OWNER_NAME}, What can I help you with?" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
     mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
 
@@ -112,7 +107,7 @@ function ANSWER_QUESTION {
 
     # Information Credits
     greeting_file_name="info_provied_by.mp3";
-    gtts-cli "This Information Was Provided By ChatGPT." --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    gtts-cli "This Information Was Provided By ChatGPT." --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
     mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
     READ_RESPONSE;
 
@@ -129,7 +124,7 @@ function PROCESS_RESPONSE {
     rm -f ${CHAT_RESPONSE_MP3}; 
 
     # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
+    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang ${LANG} --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
 }
 
 function READ_RESPONSE {
@@ -151,7 +146,7 @@ function READ_RESPONSE {
 # Modules 
 function CALL_MODULES {     
     # Read back what you heard
-    # gtts-cli "I heard ${QUESTION}. Thank you, Now Checking" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    # gtts-cli "I heard ${QUESTION}. Thank you, Now Checking" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
 
     GET_DATE_TIME; # Date_Time Module
     if [[ $QUESTION == *"y day"* ]] || [[ $QUESTION == *"hat's today"* ]] || [[ $QUESTION == *"today's dat"* ]] || [[ $QUESTION == *"today's date"* ]] || [[ $QUESTION == *"y date"* ]]  || [[ $QUESTION == *"hat day is it"* ]] || [[ $QUESTION == *"hat is the day"* ]] || [[ $QUESTION == *"hat is today"* ]]  ; then
@@ -175,7 +170,7 @@ function CALL_MODULES {
     elif [[ $QUESTION == *"andom New"* ]] || [[ $QUESTION == *"andom new"* ]]; then
         ./artifacts/modules/news/random_news.sh;
     elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency Call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"mergency Emergency"* ]] || [[ $QUESTION == *"elp help"* ]]; then
-        CALL_FOR_HELP; 
+        CALL_FOR_HELP;
     elif [[ $QUESTION == *"e have a problem"* ]] || [[ $QUESTION == *"e Have a problem"* ]]; then 
         WE_HAVE_A_PROBLEM;
     elif [[ $QUESTION == *"alk nast"* ]] || [[ $QUESTION == *"alk Nast"* ]] || [[ $QUESTION == *"alk smack"* ]] || [[ $QUESTION == *"alk Smack"* ]]; then 
@@ -184,9 +179,11 @@ function CALL_MODULES {
         ./artifacts/modules/podcasts/play_podcasts.sh;
     elif [[ $QUESTION == *"lay meditati"* ]] || [[ $QUESTION == *"lay relaxati"* ]] || [[ $QUESTION == *"lay cal"* ]]; then 
          ./artifacts/modules/meditation/meditation.sh;
+    elif [[ $QUESTION == *"tore promotion"* ]] || [[ $QUESTION == *"tore Promotion"* ]] || [[ $QUESTION == *"y promo"* ]] || [[ $QUESTION == *"y Promo"* ]]; then 
+         ./artifacts/modules/announcement/play_announcement.sh;
     elif [[ $QUESTION == "null" ]]; then 
         greeting_file_name="Heard_Nothing.mp3";
-        gtts-cli "Please Repeat, I Don't Think I Heard You Properly." --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
+        gtts-cli "Please Repeat, I Don't Think I Heard You Properly." --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
         mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
     else 
         SEND_TO_CHATGPT;
@@ -367,7 +364,7 @@ function MAKE_COMMENTS {
     
     # GoodBye Message
     greeting_file_name="helpful.mp3";
-    gtts-cli "HEY! ${ALL_REMARKS[$R_COMMENT]}" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    gtts-cli "HEY! ${ALL_REMARKS[$R_COMMENT]}" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
     mpg123 -q "artifacts/modules/sounds/chime.mp3";
     mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
@@ -393,7 +390,7 @@ function TALK_SMACK {
     # GoodBye Message
     greeting_file_name="rude.mp3";
     mpg123 -q "artifacts/modules/sounds/beep-05.mp3";
-    gtts-cli "HELLO! HI! ${ALL_REMARKS[$R_COMMENT]}" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    gtts-cli "HELLO! HI! ${ALL_REMARKS[$R_COMMENT]}" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
     mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
 
@@ -417,7 +414,7 @@ function MAKE_JOKES {
     
     # Tell a Joke
     greeting_file_name="jokes.mp3";
-    gtts-cli "HERE IS A JOKE FOR YOU. ${ALL_JOKES[$FIND_JOKE]}  " --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    gtts-cli "HERE IS A JOKE FOR YOU. ${ALL_JOKES[$FIND_JOKE]}  " --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
     mpg123 -q ${greeting_file_name} && mpg123 -q "artifacts/modules/sounds/very-infectious-laughter-117727.mp3" && rm -f "${greeting_file_name}"; 
 }
 
@@ -441,8 +438,8 @@ function ON_HOLD_MESSAGE {
     
     # Hold Message
     greeting_file_name="please_wait.mp3";
-    # gtts-cli "HERE IS YOUR JOKE!" --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    gtts-cli "${ALL_CONFIRM[$FIND_CONFIRMATION]}  " --lang en --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    # gtts-cli "HERE IS YOUR JOKE!" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    gtts-cli "${ALL_CONFIRM[$FIND_CONFIRMATION]}  " --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
     mpg123 -q ${greeting_file_name} && rm -f "${greeting_file_name}"; 
 }
 
@@ -472,7 +469,7 @@ function CALL_FOR_HELP {
     rm -f ${CHAT_RESPONSE_MP3}; 
 
     # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
+    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang ${LANG} --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
 
       
     until [ $counter -gt $max_count ]; do
@@ -499,7 +496,7 @@ function WE_HAVE_A_PROBLEM {
     rm -f ${CHAT_RESPONSE_MP3}; 
 
     # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
+    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang ${LANG} --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
 
     until [ $counter -gt $max_count ]; do
     # For Windows use mpg123 https://www.mpg123.de/download

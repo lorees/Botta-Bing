@@ -1,4 +1,5 @@
 # USer Info - Please Adjust
+export OWNER_NAME="Miss Laurie"; # Name owner wants to be called
 export ZIP="11433"; # Change to your zip code
 export COUNTRY_CODE="US"; # Country
 export LANG="en"; # gTTS language

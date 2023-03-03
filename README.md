@@ -19,6 +19,8 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
 - **Computer, My time.** # Will give back the current Time.
 - **Computer, Weather for zip code XXXXX.** # Will give back weather for Zip Code specified 
 - **Computer, Play Jeopardy.** # Will read back a Jeopardy Question.
+- **Computer, Play a Podcast or Computer, Play My Podcast.** # Will Playback a Podcast. # Will Play. Podcast i The podcast Directory
+- **Computer, Play Meditation Music or Computer, Play Relaxation Music or Computer, Play Calm Music.** # Will Play Calm Music From the Meditation Directory
 - **Computer, Make me laugh.** # Will read back a Joke chosen by Botta Bing
 - **Computer, Random News.** # Will read back a news story chosen by Botta Bing
 - **Computer, Talk Smack. or Computer, Talk Nasty.** # Will say something to repel.

@@ -15,7 +15,8 @@ function PLAY_ANNOUNCEMENT_FILE {
         echo "No Announcement"
     else
         echo "Announcement Found"
-        gtts-cli --file "${ANNOUNCEMENT_FILE}" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
+        gtts-cli --file "${ANNOUNCEMENT_FILE}" --lang ${LANG} --tld ${LOCALIZATION} --output "announcement.mp3";
+        mpg123 -q announcement.mp3;
     fi
 }
 
@@ -36,8 +37,7 @@ function PLAY_ANNOUNCEMENT_MP3 {
     echo "COMMENT: ${ANNOUNCEMENT_LIST[$R_COMMENT]}";
 
     if [ ! -z $TOTAL_ANNOUNCEMENTS ]; then 
-        # mpg123 -q "${ANNOUNCEMENT_LIST[$R_COMMENT]}";
-        play -q "${ANNOUNCEMENT_LIST[$R_COMMENT]}";
+        mpg123 -q "${ANNOUNCEMENT_LIST[$R_COMMENT]}";
     fi
 }
 
@@ -50,6 +50,7 @@ function LOOP_PLAY {
         PLAY_ANNOUNCEMENT_FILE;
     ((counter++));
     done;    
+    rm -f announcement.mp3;
 }
 ################# Functions End #################
 LOOP_PLAY;  # Play announcements in a loop

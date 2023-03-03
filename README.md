@@ -31,7 +31,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
 # Getting Started
 ### Mac (Install Locally)
  1. Use Brew And Pip3 to Install Packages   
- 2. brew install jq mpg123 curl vlc  
+ 2. brew install jq mpg123 curl vlc ffmpeg
  3. pip3 install gTTS   
  4. pip3 install -U openai-whisper  (needs python version lower than 3.11 - run python --version first)
  5. Get Google Cloud installer from:

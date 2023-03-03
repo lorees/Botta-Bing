@@ -1,6 +1,7 @@
 # USer Info - Please Adjust
 export ZIP="11433"; # Change to your zip code
 export COUNTRY_CODE="US"; # Country
+export LANG="en"; # gTTS language
 
 # Speaking Voice Accent
 export LOCALIZATION="com.au"; # (us, co.uk, com.au, co.in)Speaking Accent https://gtts.readthedocs.io/en/latest/module.html#localized-accents

@@ -17,3 +17,11 @@ export OPENAI_API_KEY="sk-HjAcLUGhkk1vtnke9e4OT3BXXXXXX"; # ChatGPT API
 # Please check the install packages section OR your Vagrantfile to confirm dependencies Or Destroy and recreate your box using this Vagrantfile
 # export TRANSCRIBE="OPENAI_WHISPER"; # Only Select one
 export TRANSCRIBE="GOOGLE_API"; # Only Select One 
+
+# Promotion & Emergency Announcement Replay Interval 
+export ANNOUNCEMENT_LOOP="3";
+
+# Static Variables - DO NOT EDIT
+export OUTPUT_FILE="chat_response.json";
+export CHAT_RESPONSE_MP3="response.mp3";
+export CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";

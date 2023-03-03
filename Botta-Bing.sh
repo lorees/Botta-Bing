@@ -454,29 +454,21 @@ function READ_NEWS {
 }
 
 function CALL_FOR_HELP {
-    QUESTION=`echo $QUESTION | sed 's/\.//'`;
-
-    # Help Message
-    echo "HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" > ${CHAT_RESPONSE_FILE};
-    echo "I JUST RECEIVED A DISTRESS CALL! HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" >> ${CHAT_RESPONSE_FILE};
-    echo "MY OWNER MAY NEED YOUR HELP! HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" >> ${CHAT_RESPONSE_FILE};
-    echo "BYSTANDERS PLEASE DO NOT IGNORE THIS DISTRESS CALL. PLEASE CALL FOR HELP!" >> ${CHAT_RESPONSE_FILE};
- 
-    counter="1";
-    max_count="3";
-
-    # Remove Old Response
-    rm -f ${CHAT_RESPONSE_MP3}; 
-
-    # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang ${LANG} --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-
-      
-    until [ $counter -gt $max_count ]; do
-    mpg123 -q "artifacts/modules/sounds/low_high_tones.mp3";
+    # QUESTION=`echo $QUESTION | sed 's/\.//'`;
+    source params;
     
-    # For Windows use mpg123 https://www.mpg123.de/download
-    mpg123 -q ${CHAT_RESPONSE_MP3};
+    # On Screen Prompt 
+    echo "EMERGENCY SERVICE ACTIVATED!";
+    
+    # Help Message
+    counter="1";
+    max_count="${ANNOUNCEMENT_LOOP}";    
+    until [ $counter -gt $max_count ]; do
+        play -q "artifacts/modules/sounds/low_high_tones.mp3"; 
+        gtts-cli "HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
+        gtts-cli "I JUST RECEIVED A DISTRESS CALL! HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
+        gtts-cli "MY OWNER MAY NEED YOUR HELP! HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
+        gtts-cli "BYSTANDERS PLEASE DO NOT IGNORE THIS DISTRESS CALL. PLEASE CALL FOR HELP!" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
     ((counter++));
     done;    
 }

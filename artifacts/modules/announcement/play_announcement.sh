@@ -15,7 +15,7 @@ function PLAY_ANNOUNCEMENT_FILE {
         echo "No Announcement"
     else
         echo "Announcement Found"
-        gtts-cli --file "${ANNOUNCEMENT_FILE}" --lang ${LANG} --tld ${LOCALIZATION} | play -t mp3 -;
+        gtts-cli --file "${ANNOUNCEMENT_FILE}" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
     fi
 }
 

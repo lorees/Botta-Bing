@@ -1,13 +1,16 @@
 Step 1 - Login
 The vagrant desktop password is "vagrant".
 
-Step 2 - Complete gcloud setup
+Step 2 - Complete gcloud setup - ** No Longer necessary if you use OPENAPI Whisper. Just enable it in your params file.
 To Complete the Setup you must run "gcloud init"
 You will be prompted to Login to to your google Account. Make sure you have a developer api key.
 
-Step 3 - Load you Api Keys 
-You Will Need Api Keys for the following.:
-Google Developer API Key 
+Step 3 - Load your API Keys 
+Please note that you don't need a google API key if you use OPENAPI Whistper to transcribe. 
+To use Whistper just enable it in your params file. 
+
+You Will Need API Keys for the following.:
+Google Developer API Key - ** No Longer necessary if you use OPENAPI Whisper. Just enable it in your params file.
 https://console.cloud.google.com/projectselector2/google/maps-apis/credentials?utm_source=Docs_Credentials&_gl=1*1mggx3k*_ga*NzgzNTYzMjcxLjE2NzcwODMzMTY.*_ga_NRWSTWS78N*MTY3NzA4MzM2OC4xLjAuMTY3Nz
 A4MzM3MS4wLjAuMA..&pli=1
 

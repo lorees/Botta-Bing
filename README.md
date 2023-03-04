@@ -19,9 +19,10 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
 - **Computer, My time.** # Will give back the current Time.
 - **Computer, Weather for zip code XXXXX.** # Will give back weather for Zip Code specified 
 - **Computer, Play Jeopardy.** # Will read back a Jeopardy Question.
-- **Computer, Play a Podcast or Computer, Play My Podcast.** # Will Playback a Podcast. # Will Play. Podcast i The podcast Directory
-- **Computer, Play Meditation Music or Computer, Play Relaxation Music or Computer, Play Calm Music.** # Will Play Calm Music From the Meditation Directory
 - **Computer, Make me laugh.** # Will read back a Joke chosen by Botta Bing
+- **Computer, Play a Podcast or Computer, Play My Podcast.** # Will Playback a Podcast. # Will Play. Podcast in the podcast Directory
+- **Computer, Play Meditation Music or Computer, Play Relaxation Music or Computer, Play Calm Music.** # Will Play Calm Music From the Meditation Directory
+- **Computer, Play Promo.** # Will play back a Promotion from the Announcement Directorys.
 - **Computer, Random News.** # Will read back a news story chosen by Botta Bing
 - **Computer, Talk Smack. or Computer, Talk Nasty.** # Will say something to repel.
 - **Computer, We Have a Problem.** # Will Chase someone off. 
@@ -33,7 +34,7 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
  1. Use Brew And Pip3 to Install Packages   
  2. brew install jq mpg123 curl vlc ffmpeg
  3. pip3 install gTTS   
- 4. pip3 install -U openai-whisper  (needs python version lower than 3.11 - run python --version first)
+ 4. pip3 install -U openai-whisper (needs python version lower than 3.11 - run python --version first)
  5. Get Google Cloud installer from:
     https://cloud.google.com/sdk/docs/install   
  6.  Download this git repo & unzip it
@@ -57,7 +58,8 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
  11. Make sure you load your API Keys into the **"params"** file in the root directory
  12. Make Sure to Update your Zip Code in the **"params"** file also.
  13. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
- 14. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop. You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
+ 14. If you use OPENAPI Whisper transcription, you DO NOT need to enable Google Cloud API.. - Edit your params file.
+ 15. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop. You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
   
 ### Windows (VirtualBox \ Vagrant)
   1. First Install VirtualBox - If you have an older version please upgrade to the most recent version http://virtualbox.org
@@ -73,7 +75,8 @@ https://www.youtube.com/playlist?list=PLHaIqooBEjXhdVwQIrCLomTJwaucg_hV3
   11. Make sure you load your API Keys into the **"params"** file in the root directory
   12. Make Sure to Update your Zip Code in the **"params"** file also.
   13. Make sure you enable the "Google Text To Speech" API. https://console.cloud.google.com/
-  14. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop . You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
+  14. If you use OPENAPI Whisper transcription, you DO NOT need to enable Google Cloud API.. - Edit your params file.
+  15. Lastly to enable the **Google Cloud SDK** you must run "gcloud init". Do this from the Virtual Machines Desktop . You will be prompted to link your newly created Google Developer API Key to the Google Cloud SDK.
 
 ## Loading API Keys
 Once the basic software packages are installed you need to obtain API Keys from the Below list if resources. First create a login and then either copy or create the keys for the below list:

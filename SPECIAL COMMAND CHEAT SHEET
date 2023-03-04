@@ -9,6 +9,9 @@ Computer, My time. # Will give back the current Time.
 Computer, Weather for zip code XXXXX. # Will give back weather for Zip Code specified.
 Computer, Play Jeopardy. # Will read back a Jeopardy Question.
 Computer, Make me laugh. # Will read back a Joke chosen by Botta Bing
+Computer, Play Promo OR Play My Store Promotion. # Will Play back and announcement from the Announcements directory (artifacts\modules\announements)
+Computer, Play Meditation Music. Will Play back music from the Meditation directory (artifacts\modules\meditation)
+Computer, Play Podcast. Will Play back a podcast from the Podcast directory (artifacts\modules\podcast)
 Computer, Random News. # Will read back a news story chosen by Botta Bing
 Computer, Talk Smack. or Computer, Talk Nasty. # Will say something to repel.
 Computer, We Have a Problem. # Will Chase someone off. 
@@ -16,8 +19,6 @@ Computer, Emergency Emergency. # Will play an Emergency Notification.
 Computer, {Incert your Question}. # Will reach out to ChatGPT for an Answer
 
 API's
-Google 
+Google SDK  - NOW OPTIONAL - SEE "params" file
 OpenWeatherMap.org
 NewsData.io
-
-Packages 

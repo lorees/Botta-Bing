@@ -3,11 +3,12 @@ export OWNER_NAME="Miss Laurie"; # Name owner wants to be called
 export ZIP="11433"; # Change to your zip code
 export COUNTRY_CODE="US"; # Country
 export LANG="en"; # gTTS language
+export NEWS_FREQUENCY="20" # the new play 1 out of X number of times
 
 # Speaking Voice Accent
 export LOCALIZATION="com.au"; # (us, co.uk, com.au, co.in)Speaking Accent https://gtts.readthedocs.io/en/latest/module.html#localized-accents
 
-API KEYS
+# API KEYS
 export WEATHER_APPID="7bf0529d2837046XXXXXXXX"; # OpenWeatherWeather
 export NEWS_API="pub_17581747eff7354b744628XXXXXXX"; # newsdata.io API
 export OPENAI_API_KEY="sk-HjAcLUGhkk1vtnke9e4OT3BXXXXXX"; # ChatGPT API

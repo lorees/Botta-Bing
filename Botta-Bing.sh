@@ -444,11 +444,18 @@ function ON_HOLD_MESSAGE {
 }
 
 function READ_NEWS {
-    RANGE="20"; 
+    # Default value if value is missing
+    if [ -z ${NEWS_FREQUENCY} ];then
+        NEWS_FREQUENCY="10";
+    fi  
+    
+    # Pick a number ad play news if it equals 1
+    RANGE="${NEWS_FREQUENCY}"; 
     yes_no=$RANDOM;
     let "yes_no %= $RANGE";
-    
-    if [ $yes_no -lt 1 ];then 
+    # echo $yes_no;
+
+    if [ $yes_no = "1" ];then 
         ./artifacts/modules/news/news_api.sh; 
     fi
 }

@@ -16,17 +16,16 @@
     # world
 
 # Reference 
-source ../../../params;
-NEWS_CATEGORY="top";
+source params;
 NEWS_COUNTRIES="us"; # us,ca
-NEWS_FILE="artifacts/news/LATEST_NEWS.json";
-NEWS_CATEGORY_FILE="artifacts/news/category";
-NEWS_FOLDER="artifacts/news";
+NEWS_FILE="artifacts/modules/news/LATEST_NEWS.json";
+NEWS_CATEGORY_FILE="artifacts/modules/news/category";
+NEWS_FOLDER="artifacts/modules/news";
 
 # Talk
 CHAT_RESPONSE_MP3="response.mp3";
 CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";
-CHAT_LOG="../../../CHAT.log";
+CHAT_LOG="CHAT.log";
 
 #################### Functions Begin ####################
 function RANDOME_NEWS {

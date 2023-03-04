@@ -28,8 +28,14 @@ CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";
 CHAT_LOG="CHAT.log";
 
 #################### Functions Begin ####################
-function RANDOME_NEWS {
-    NEWS_CATEGORYS=(top business food entertainment health politics science technology world);
+function RANDOM_NEWS {
+    # Remove Old Response
+    rm -f ${CHAT_RESPONSE_MP3}; 
+    rm -f ${NEWS_FILE};
+    rm -f ${NEWS_CATEGORY_FILE};
+    rm -f ${CHAT_RESPONSE_FILE};
+
+    NEWS_CATEGORYS=(top business entertainment health politics science technology world);
     
     RANGE="${#NEWS_CATEGORYS[@]}";
     FIND_CATEGORY=$RANDOM;
@@ -39,6 +45,14 @@ function RANDOME_NEWS {
 
     LATEST_NEWS_API_URL="https://newsdata.io/api/1/news?apikey=${NEWS_API}&country=${NEWS_COUNTRIES}&q=${NEWS_CATEGORY}&language=en";
     wget ${LATEST_NEWS_API_URL} -O "${NEWS_FILE}";
+
+    echo "It's Time For A Short Bite For Category ${ARTICLE_CATEGORY} News." > ${CHAT_RESPONSE_FILE};
+    echo "Data Provided By, News Data dot I O." >> ${CHAT_RESPONSE_FILE};   
+}
+
+function PROCESS_RESPONSE {
+    # Make New Response
+    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
 }
 
 function READ_ARTICLE {
@@ -50,29 +64,17 @@ function READ_ARTICLE {
 
     MY_ARTICLE=`cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].description'`;
     ARTICLE_CATEGORY=`cat $NEWS_CATEGORY_FILE`;
-    
-    echo ${MY_ARTICLE} | sed 's/Read more\.\.\.//';
-
-    
-    echo "It's Time For A Short Bite For Category ${ARTICLE_CATEGORY} News." > ${CHAT_RESPONSE_FILE};
-    echo "Data Provided By, News Data dot I O." >> ${CHAT_RESPONSE_FILE};
     echo "$MY_ARTICLE" >> ${CHAT_RESPONSE_FILE};
     PROCESS_RESPONSE;
-    mpg123 -q -f -10500 "artifacts/modules/sounds/this-just-in-980709-PREVIEW.mp3"
-    READ_RESPONSE;
-}
-
-function PROCESS_RESPONSE {
-    # Remove Old Response
-    rm -f ${CHAT_RESPONSE_MP3}; 
-
-    # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-}
-
-function READ_RESPONSE {
-    # For Windows use mpg123 https://www.mpg123.de/download
-    mpg123 -q ${CHAT_RESPONSE_MP3};
+    
+    echo ${MY_ARTICLE} | sed 's/Read more\.\.\.//';
+    if [ "${MY_ARTICLE}" = "null" ]; then 
+        echo "Blank Article";
+        exit;
+    else
+        mpg123 -q -f -10500 "artifacts/modules/sounds/this-just-in-980709-PREVIEW.mp3";
+        mpg123 -q ${CHAT_RESPONSE_MP3};
+    fi
 }
 
 function WRITE_TO_LOG {
@@ -83,7 +85,7 @@ function WRITE_TO_LOG {
     echo "${CHAT_RESPONSE}" >> ${CHAT_LOG};
 }
 #################### Functions End #################### 
-RANDOME_NEWS;
+RANDOM_NEWS;
 READ_ARTICLE;    
 exit;
 

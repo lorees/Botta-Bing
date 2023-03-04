@@ -168,7 +168,7 @@ function CALL_MODULES {
     elif [[ $QUESTION == *"lay Jeopardy"* ]] || [[ $QUESTION == *"lay jeopardy"* ]]; then
         ./artifacts/modules/jeopardy/jeopardy.sh;
     elif [[ $QUESTION == *"andom New"* ]] || [[ $QUESTION == *"andom new"* ]]; then
-        ./artifacts/modules/news/random_news.sh;
+        ./artifacts/modules/news/news_api.sh;
     elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency Call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"mergency Emergency"* ]] || [[ $QUESTION == *"elp help"* ]]; then
         CALL_FOR_HELP;
     elif [[ $QUESTION == *"e have a problem"* ]] || [[ $QUESTION == *"e Have a problem"* ]]; then 

@@ -17,6 +17,7 @@
 
 # Reference 
 source params;
+NEWS_CATEGORY="top";
 NEWS_COUNTRIES="us"; # us,ca
 NEWS_FILE="artifacts/modules/news/LATEST_NEWS.json";
 NEWS_CATEGORY_FILE="artifacts/modules/news/category";
@@ -28,6 +29,13 @@ CHAT_RESPONSE_FILE="CHAT_RESPONSE.txt";
 CHAT_LOG="CHAT.log";
 
 #################### Functions Begin ####################
+# Get News
+function GET_TOP_NEWS {
+        CHOOSE_CATEGORY; # Pick
+        PROCESS_ARTICLE; # Process
+        READ_ARTICLE;  # Read
+}
+
 function CHOOSE_CATEGORY {
     NEWS_CATEGORYS=(top business health politics science technology world);
     
@@ -36,21 +44,15 @@ function CHOOSE_CATEGORY {
     let "FIND_CATEGORY %= $RANGE";
     NEWS_CATEGORY=${NEWS_CATEGORYS[$FIND_CATEGORY]};
     echo "$NEWS_CATEGORY" > $NEWS_CATEGORY_FILE;
-
+    ARTICLE_CATEGORY=`cat $NEWS_CATEGORY_FILE`;
+    
     LATEST_NEWS_API_URL="https://newsdata.io/api/1/news?apikey=${NEWS_API}&country=${NEWS_COUNTRIES}&q=${NEWS_CATEGORY}&language=en";
+    wget ${LATEST_NEWS_API_URL} -O "${NEWS_FILE}";
+    echo "It's Time For A Short News Bite For Category ${ARTICLE_CATEGORY} News." > ${CHAT_RESPONSE_FILE};
+    echo "Data Provided By, News Data dot I O." >> ${CHAT_RESPONSE_FILE};
 }
 
-# Get Newss
-function GET_TOP_NEWS {
-    find ${NEWS_FOLDER} -name '*.*' -mmin +60 -delete > /dev/null;
-    if [ ! -f ${NEWS_FILE} ]; then
-        # Pick a news category
-        CHOOSE_CATEGORY;
-        wget ${LATEST_NEWS_API_URL} -O "${NEWS_FILE}";
-    fi
-}
-
-function READ_ARTICLE {
+function PROCESS_ARTICLE {
     # Pick and articale
     TOTAL_ARTICLES=`cat ${NEWS_FILE} | jq length`;
     RANGE=$TOTAL_ARTICLES;
@@ -58,17 +60,12 @@ function READ_ARTICLE {
     let "FIND_ARTICLE %= $RANGE";
 
     MY_ARTICLE=`cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].description'`;
-    ARTICLE_CATEGORY=`cat $NEWS_CATEGORY_FILE`;
     
+    echo "News Category: ${ARTICLE_CATEGORY}";
     echo ${MY_ARTICLE} | sed 's/Read more\.\.\.//';
-
-    echo "It's Time For A Short News Bite For Category ${ARTICLE_CATEGORY} News." > ${CHAT_RESPONSE_FILE};
-    echo "Data Provided By, News Data dot I O." >> ${CHAT_RESPONSE_FILE};
     echo "$MY_ARTICLE" >> ${CHAT_RESPONSE_FILE};
-    PROCESS_RESPONSE;
-    mpg123 -q -f -10500 "artifacts/modules/sounds/this-just-in-980709-PREVIEW.mp3";
-    READ_RESPONSE;
-}
+    PROCESS_RESPONSE;  
+  }
 
 function PROCESS_RESPONSE {
     # Remove Old Response
@@ -78,9 +75,14 @@ function PROCESS_RESPONSE {
     gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
 }
 
-function READ_RESPONSE {
-    # For Windows use mpg123 https://www.mpg123.de/download
-    mpg123 -q ${CHAT_RESPONSE_MP3};
+function READ_ARTICLE {
+    if [ "${MY_ARTICLE}" = "null" ]; then 
+        echo "Blank Article";
+        exit;
+    else
+        mpg123 -q -f -10500 "artifacts/modules/sounds/this-just-in-980709-PREVIEW.mp3";
+        mpg123 -q ${CHAT_RESPONSE_MP3};
+    fi
 }
 
 function WRITE_TO_LOG {
@@ -91,6 +93,6 @@ function WRITE_TO_LOG {
     echo "${CHAT_RESPONSE}" >> ${CHAT_LOG};
 }
 #################### Functions End #################### 
-GET_TOP_NEWS;
-READ_ARTICLE;    
+GET_TOP_NEWS;  
+WRITE_TO_LOG;
 exit;

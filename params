@@ -4,6 +4,7 @@ export ZIP="11433"; # Change to your zip code
 export COUNTRY_CODE="US"; # Country
 export LANG="en"; # gTTS language
 export NEWS_FREQUENCY="20" # the new play 1 out of X number of times
+export SOUND_CPU_CALIBRATION="false"; # {true or false} Turn on if running with VirtualBox and Vagrant. Will run through a sound and cpu calibration
 
 # Speaking Voice Accent
 export LOCALIZATION="com.au"; # (us, co.uk, com.au, co.in)Speaking Accent https://gtts.readthedocs.io/en/latest/module.html#localized-accents

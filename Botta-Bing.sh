@@ -537,7 +537,12 @@ function CLEAN_UP {
 }
 
 ################# Functions End #################
+if [ ${SOUND_CPU_CALIBRATION} = "true" ]; then
+    ./artifacts/modules/introduction/calibration.sh;
+fi
+
 MEET_GREET; # initial announcement 
+ 
 until [ "2" == "1" ]; do
     LISTEN_TRANSCRIBE; # Listens for sound then Transcribes with Google Speech to Text
     READ_NEWS; # Read News Broadcast

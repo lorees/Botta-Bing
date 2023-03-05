@@ -50,12 +50,11 @@ function LISTEN_TRANSCRIBE {
     ON_HOLD_MESSAGE; # On Hold Confirmation Message
     
     # Choose Transcription Model from "params file"
-    if [ "${TRANSCRIBE}" == "OPENAI_WHISPER" ]; then
+    if [ "${TRANSCRIBE}" = "OPENAI_WHISPER" ]; then
         OPENAI_WHISPER;  # Whisper Transcribe 
     else
         GOOGLE_CLOUD_TRANSCRIBE; # Google Transcription API Based
     fi
-
     CALL_MODULES; # Call Modules
 }
 
@@ -71,7 +70,7 @@ function GOOGLE_CLOUD_TRANSCRIBE {
 
 # New Openai Whisper Transcription - No API key Needed
 function OPENAI_WHISPER {
-    QUESTION=`whisper ${WAV_FILE} --task transcribe --model tiny.en --language en --output_format txt > /dev/null 2>&1`;
+    whisper ${WAV_FILE} --task transcribe --model tiny.en --output_format txt > /dev/null 2>&1;
     QUESTION=`cat ${WAV_FILE}.txt`;
     rm -f ${WAV_FILE}.txt;
 }
@@ -169,7 +168,7 @@ function CALL_MODULES {
         ./artifacts/modules/jeopardy/jeopardy.sh;
     elif [[ $QUESTION == *"andom New"* ]] || [[ $QUESTION == *"andom new"* ]]; then
         ./artifacts/modules/news/news_api.sh;
-    elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency Call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"mergency Emergency"* ]] || [[ $QUESTION == *"elp help"* ]]; then
+    elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency Call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"mergency Emergency"* ]] || [[ $QUESTION == *"elp help"* ]] || [[ $QUESTION == *"all for help"* ]]; then
         CALL_FOR_HELP;
     elif [[ $QUESTION == *"e have a problem"* ]] || [[ $QUESTION == *"e Have a problem"* ]]; then 
         WE_HAVE_A_PROBLEM;
@@ -461,21 +460,28 @@ function READ_NEWS {
 }
 
 function CALL_FOR_HELP {
-    # QUESTION=`echo $QUESTION | sed 's/\.//'`;
-    source params;
-    
-    # On Screen Prompt 
-    echo "EMERGENCY SERVICE ACTIVATED!";
-    
+    QUESTION=`echo $QUESTION > sed 's/\.//'`;
+
     # Help Message
+    echo "HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" > ${CHAT_RESPONSE_FILE};
+    echo "I JUST RECEIVED A DISTRESS CALL! HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" >> ${CHAT_RESPONSE_FILE};
+    echo "MY OWNER MAY NEED YOUR HELP! HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" >> ${CHAT_RESPONSE_FILE};
+    echo "BYSTANDERS PLEASE DO NOT IGNORE THIS DISTRESS CALL. PLEASE CALL FOR HELP!" >> ${CHAT_RESPONSE_FILE};
+ 
     counter="1";
-    max_count="${ANNOUNCEMENT_LOOP}";    
+    max_count="${ANNOUNCEMENT_LOOP}";
+
+    # Remove Old Response
+    rm -f ${CHAT_RESPONSE_MP3}; 
+
+    # Make New Response
+    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
+      
     until [ $counter -gt $max_count ]; do
-        play -q "artifacts/modules/sounds/low_high_tones.mp3"; 
-        gtts-cli "HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
-        gtts-cli "I JUST RECEIVED A DISTRESS CALL! HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
-        gtts-cli "MY OWNER MAY NEED YOUR HELP! HELP! THERE IS SOMEONE IN DISTRESS! HELP! PLEASE CALL FOR HELP!" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
-        gtts-cli "BYSTANDERS PLEASE DO NOT IGNORE THIS DISTRESS CALL. PLEASE CALL FOR HELP!" --lang ${LANG} --tld ${LOCALIZATION} | play -q -t mp3 -;
+    mpg123 -q "artifacts/modules/sounds/low_high_tones.mp3";
+
+    # For Windows use mpg123 https://www.mpg123.de/download
+    mpg123 -q ${CHAT_RESPONSE_MP3};
     ((counter++));
     done;    
 }

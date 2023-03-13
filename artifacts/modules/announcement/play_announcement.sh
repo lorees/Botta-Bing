@@ -45,12 +45,23 @@ function LOOP_PLAY {
     counter=1;
     max_count=${ANNOUNCEMENT_LOOP}; # play for the specified number of times.
 
-    until [ $counter -eq $max_count ]; do
-        PLAY_ANNOUNCEMENT_MP3;
-        PLAY_ANNOUNCEMENT_FILE;
-    ((counter++));
-    done;    
+    if [ ${VOICE_FIRST} = "true" ]; then 
+        # Voice First
+        until [ $counter -eq $max_count ]; do
+            PLAY_ANNOUNCEMENT_FILE;
+            PLAY_ANNOUNCEMENT_MP3;
+        ((counter++));
+        done;    
     rm -f announcement.mp3;
+    else
+        # Music first
+        until [ $counter -eq $max_count ]; do
+            PLAY_ANNOUNCEMENT_MP3;
+            PLAY_ANNOUNCEMENT_FILE;
+        ((counter++));
+        done;
+    rm -f announcement.mp3;
+    fi
 }
 ################# Functions End #################
 LOOP_PLAY;  # Play announcements in a loop

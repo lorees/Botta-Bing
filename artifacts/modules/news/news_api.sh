@@ -67,21 +67,13 @@ function PROCESS_ARTICLE {
     PROCESS_RESPONSE;  
   }
 
-function PROCESS_RESPONSE {
-    # Remove Old Response
-    rm -f ${CHAT_RESPONSE_MP3}; 
-
-    # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-}
-
 function READ_ARTICLE {
     if [ "${MY_ARTICLE}" = "null" ]; then 
         echo "Blank Article";
         exit;
     else
         mpg123 -q -f -10500 "artifacts/modules/sounds/this-just-in-980709-PREVIEW.mp3";
-        mpg123 -q ${CHAT_RESPONSE_MP3};
+        spx synthesize --file "${CHAT_RESPONSE_FILE}" --voice "${AZURE_VOICE}";
     fi
 }
 

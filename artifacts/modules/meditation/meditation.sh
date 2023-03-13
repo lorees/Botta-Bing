@@ -23,11 +23,10 @@ function PLAY_MEDITATION {
 
     if [ ! -z $TOTAL_MEDITATIONS ]; then 
         CHAT_RESPONSE_MP3="meditation.mp3";
-        gtts-cli "${OWNER_NAME}, relaxation is on the way. \
+        spx synthesize --text "${OWNER_NAME}, relaxation is on the way. \
             If you would like to stop the track please quit the VLC process on your desktop \
             and I will return. Otherwise I will return once the Track completes. Please Enjoy!." \
-            --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-        mpg123 -q "${CHAT_RESPONSE_MP3}" && rm -rf ${CHAT_RESPONSE_MP3};
+            --voice "$AZURE_VOICE";
         vlc --play-and-stop --play-and-exit "${MEDITATION_LIST[$R_COMMENT]}";
     fi
 }

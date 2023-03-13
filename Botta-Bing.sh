@@ -1,5 +1,5 @@
 #!/usr/bin/env bash 
-# Loree Sebastien 2/20/2023
+# Loree Sebastien 3/13/2023
 # Botta-Bing AI Chatbot for Robots
 # Joke Reference https://parade.com/1040121/marynliles/one-liners/
 
@@ -12,67 +12,40 @@ LINE="------------------------------";
 # Variables - Answer Query 
 source params;
 AI_URL="https://api.openai.com/v1/completions";
+rm -f *log;
 ################# Functions Begin #################
+function SET_SPEECH {
+    if [ ! -f key ];
+    then
+    echo "Setting Creds";
+        spx config @key --set ${SPEECH_KEY_1};
+        spx config @region --set ${SPEECH_REGION};
+    fi   
+}
+
 function MEET_GREET {
+    # Set Credentials
+    SET_SPEECH;
+    
     clear;
     GET_DATE_TIME;
     rm -rf cweather && ./artifacts/modules/weather/weather.sh; # Get local weather and cache it
-    # Now Listening Message
-    greeting_file_name="listening.mp3";
-    gtts-cli "Good ${TIME_GREETING} ${OWNER_NAME}, What can I help you with?" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
+    spx synthesize --text "Good ${TIME_GREETING} This is ${BOT_NAME}, What can I help you with?" --voice "${AZURE_VOICE}";
+    rm *.log;
 }
 
 function LISTEN_TRANSCRIBE {
-    # rec -b 16 ${WAV_FILE} channels 1 rate 16k silence 1 0.1 .3% -1 4.0 .1% &
-    rec -b 16 ${WAV_FILE} channels 1 rate 16k silence 1 0.1 1% -1 5.2 1% &
-    p=$!
-    
-    # Check to see if the file is growing if it does then sound is detected
-    sleep 1
-    until [ "$var1" != "$var2" ]; do
-        var1=`du "${WAV_FILE}"`;
-        sleep 1;
-        var2=`du "${WAV_FILE}"`;
-    done
-    echo "Sound Detected"
-
-    # Check for silience, if silene is detected then end recording
-    until [ "$var1" == "$var2" ]; do
-        var1=`du "${WAV_FILE}"`;
-        sleep .8;
-        var2=`du "${WAV_FILE}"`;
-    done
-    echo "Silence Detected";
-    kill $p;
-  
-    # Capture output
+    # Microphone 
+    spx recognize --microphone --once;
+    while IFS=$'\t' read -r -a myArray
+    do
+        # SESSION_ID="${myArray[0]}";
+        QUESTION="${myArray[1]}";        
+    done < *.tsv
+    rm -f *.tsv *.log;
+    # On hold Message
     ON_HOLD_MESSAGE; # On Hold Confirmation Message
-    
-    # Choose Transcription Model from "params file"
-    if [ "${TRANSCRIBE}" = "OPENAI_WHISPER" ]; then
-        OPENAI_WHISPER;  # Whisper Transcribe 
-    else
-        GOOGLE_CLOUD_TRANSCRIBE; # Google Transcription API Based
-    fi
     CALL_MODULES; # Call Modules
-}
-
-# google API based transcription service. requires API keys and setup 
-function GOOGLE_CLOUD_TRANSCRIBE {
-    # Transcribe Recording
-    gcloud ml speech recognize ${WAV_FILE} \
-        --language-code=en-US \
-        --enable-automatic-punctuation \
-        --filter-profanity > ${JSON_TRANSCRIPT};
-    QUESTION=`cat ${JSON_TRANSCRIPT} | jq -r '.results[0].alternatives[0].transcript'`;
-}
-
-# New Openai Whisper Transcription - No API key Needed
-function OPENAI_WHISPER {
-    whisper ${WAV_FILE} --task transcribe --model tiny.en --output_format txt > /dev/null 2>&1;
-    QUESTION=`cat ${WAV_FILE}.txt`;
-    rm -f ${WAV_FILE}.txt;
 }
 
 function SEND_TO_CHATGPT {
@@ -102,14 +75,11 @@ function ANSWER_QUESTION {
     # Get chat response text
     CHAT_RESPONSE=`cat chat_response.json | jq -r '.choices[0].text'`;
     echo ${CHAT_RESPONSE}>${CHAT_RESPONSE_FILE};
-    PROCESS_RESPONSE;
-
+ 
     # Information Credits
-    greeting_file_name="info_provied_by.mp3";
-    gtts-cli "This Information Was Provided By ChatGPT." --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
-    READ_RESPONSE;
-
+    spx synthesize --text "This Information Was Provided By ChatGPT." --voice "${AZURE_VOICE}";
+    PROCESS_RESPONSE;
+    
     # Print Question and Answer
     clear; # Clear the screen
     printf "\n\nQUESTION:\n";
@@ -123,14 +93,8 @@ function PROCESS_RESPONSE {
     rm -f ${CHAT_RESPONSE_MP3}; 
 
     # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang ${LANG} --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-}
-
-function READ_RESPONSE {
-
-    # For Windows use mpg123 https://www.mpg123.de/download
-    mpg123 -q ${CHAT_RESPONSE_MP3};
-    
+    spx synthesize --file ${CHAT_RESPONSE_FILE} --voice "${AZURE_VOICE}";
+ 
     # Make Comments Randomly 1 out of 3 X's
     RANGE="3"; 
     yes_no=$RANDOM;
@@ -145,7 +109,6 @@ function READ_RESPONSE {
 # Modules 
 function CALL_MODULES {     
     # Read back what you heard
-    # gtts-cli "I heard ${QUESTION}. Thank you, Now Checking" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
 
     GET_DATE_TIME; # Date_Time Module
     if [[ $QUESTION == *"y day"* ]] || [[ $QUESTION == *"hat's today"* ]] || [[ $QUESTION == *"today's dat"* ]] || [[ $QUESTION == *"today's date"* ]] || [[ $QUESTION == *"y date"* ]]  || [[ $QUESTION == *"hat day is it"* ]] || [[ $QUESTION == *"hat is the day"* ]] || [[ $QUESTION == *"hat is today"* ]]  ; then
@@ -166,13 +129,13 @@ function CALL_MODULES {
         MAKE_JOKES;
     elif [[ $QUESTION == *"lay Jeopardy"* ]] || [[ $QUESTION == *"lay jeopardy"* ]]; then
         ./artifacts/modules/jeopardy/jeopardy.sh;
-    elif [[ $QUESTION == *"andom New"* ]] || [[ $QUESTION == *"andom new"* ]]; then
+    elif [[ $QUESTION == *"andom new"* ]]; then
         ./artifacts/modules/news/news_api.sh;
-    elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency Call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"mergency Emergency"* ]] || [[ $QUESTION == *"elp help"* ]] || [[ $QUESTION == *"all for help"* ]]; then
+    elif [[ $QUESTION == *"mergency call"* ]] || [[ $QUESTION == *"mergency emergency"* ]] || [[ $QUESTION == *"elp help"* ]] || [[ $QUESTION == *"all for help"* ]]; then
         CALL_FOR_HELP;
     elif [[ $QUESTION == *"e have a problem"* ]] || [[ $QUESTION == *"e Have a problem"* ]]; then 
         WE_HAVE_A_PROBLEM;
-    elif [[ $QUESTION == *"alk nast"* ]] || [[ $QUESTION == *"alk Nast"* ]] || [[ $QUESTION == *"alk smack"* ]] || [[ $QUESTION == *"alk Smack"* ]]; then 
+    elif [[ $QUESTION == *"alk nast"* ]] || [[ $QUESTION == *"alk smack"* ]] || [[ $QUESTION == *"alk Smack"* ]]; then 
         TALK_SMACK;
     elif [[ $QUESTION == *"lay podcast"* ]] || [[ $QUESTION == *"lay a podcast"* ]] || [[ $QUESTION == *"lay my podcast"* ]]; then 
         ./artifacts/modules/podcasts/play_podcasts.sh;
@@ -181,9 +144,7 @@ function CALL_MODULES {
     elif [[ $QUESTION == *"tore promotion"* ]] || [[ $QUESTION == *"tore Promotion"* ]] || [[ $QUESTION == *"y promo"* ]] || [[ $QUESTION == *"y Promo"* ]]; then 
          ./artifacts/modules/announcement/play_announcement.sh;
     elif [[ $QUESTION == "null" ]]; then 
-        greeting_file_name="Heard_Nothing.mp3";
-        gtts-cli "Please Repeat, I Don't Think I Heard You Properly." --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
-        mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
+        spx synthesize --text "Please Repeat, I Don't Think I Heard You Properly." --voice "${AZURE_VOICE}";  
     else 
         SEND_TO_CHATGPT;
     fi
@@ -282,7 +243,6 @@ function GET_WEATHER {
     echo "The Conditions are ${CONDITIONS} with a Humidity of ${HUMIDITY} percent" >> ${CHAT_RESPONSE_FILE};
     echo "The Barometer or Rather the Atmospheric Pressure measures ${PRESSURE} Bars. Please Dress Accordingly." >> ${CHAT_RESPONSE_FILE};
     PROCESS_RESPONSE;
-    READ_RESPONSE;
 }
 
 function GET_WEATHER_BY_CITY {
@@ -312,7 +272,6 @@ function GET_WEATHER_BY_CITY {
     echo "The Barometer or Rather the Atmospheric Pressure measures ${PRESSURE} Bars." >> ${CHAT_RESPONSE_FILE};
     rm -f cweather;
     PROCESS_RESPONSE;
-    READ_RESPONSE;
 }
 
 function GET_WEATHER_BY_ZIP {
@@ -340,7 +299,6 @@ function GET_WEATHER_BY_ZIP {
     echo "The Barometer or Rather the Atmospheric Pressure measures ${PRESSURE} Bars. Please Dress Accordingly." >> ${CHAT_RESPONSE_FILE};
     rm -f cweather; 
     PROCESS_RESPONSE;
-    READ_RESPONSE;
 }
 
 function MAKE_COMMENTS {
@@ -362,10 +320,8 @@ function MAKE_COMMENTS {
     echo "COMMENT: ${ALL_REMARKS[$R_COMMENT]}";
     
     # GoodBye Message
-    greeting_file_name="helpful.mp3";
-    gtts-cli "HEY! ${ALL_REMARKS[$R_COMMENT]}" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    spx synthesize --text "HEY! ${ALL_REMARKS[$R_COMMENT]}" --voice "${AZURE_VOICE}";
     mpg123 -q "artifacts/modules/sounds/chime.mp3";
-    mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
 
 function TALK_SMACK {
@@ -387,10 +343,8 @@ function TALK_SMACK {
     echo "COMMENT: ${ALL_REMARKS[$R_COMMENT]}";
     
     # GoodBye Message
-    greeting_file_name="rude.mp3";
     mpg123 -q "artifacts/modules/sounds/beep-05.mp3";
-    gtts-cli "HELLO! HI! ${ALL_REMARKS[$R_COMMENT]}" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
+    spx synthesize --text "HELLO! HI! ${ALL_REMARKS[$R_COMMENT]}" --voice "${AZURE_VOICE}"; 
 }
 
 function MAKE_JOKES {
@@ -412,9 +366,8 @@ function MAKE_JOKES {
     echo && echo "JOKE: ${ALL_JOKES[$FIND_JOKE]}" && echo;
     
     # Tell a Joke
-    greeting_file_name="jokes.mp3";
-    gtts-cli "HERE IS A JOKE FOR YOU. ${ALL_JOKES[$FIND_JOKE]}  " --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q ${greeting_file_name} && mpg123 -q "artifacts/modules/sounds/very-infectious-laughter-117727.mp3" && rm -f "${greeting_file_name}"; 
+    spx synthesize --text "HERE IS A JOKE FOR YOU. ${ALL_JOKES[$FIND_JOKE]}" --voice "${AZURE_VOICE}";
+    mpg123 -q "artifacts/modules/sounds/very-infectious-laughter-117727.mp3"; 
 }
 
 function ON_HOLD_MESSAGE {
@@ -436,10 +389,7 @@ function ON_HOLD_MESSAGE {
     echo && echo "WAIT MESSAGE: ${ALL_CONFIRM[$FIND_CONFIRMATION]}" && echo;
     
     # Hold Message
-    greeting_file_name="please_wait.mp3";
-    # gtts-cli "HERE IS YOUR JOKE!" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    gtts-cli "${ALL_CONFIRM[$FIND_CONFIRMATION]}  " --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
-    mpg123 -q ${greeting_file_name} && rm -f "${greeting_file_name}"; 
+    spx synthesize --text "${ALL_CONFIRM[$FIND_CONFIRMATION]}" --voice "${AZURE_VOICE}";
 }
 
 function READ_NEWS {
@@ -470,18 +420,10 @@ function CALL_FOR_HELP {
  
     counter="1";
     max_count="${ANNOUNCEMENT_LOOP}";
-
-    # Remove Old Response
-    rm -f ${CHAT_RESPONSE_MP3}; 
-
-    # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-      
+  
     until [ $counter -gt $max_count ]; do
     mpg123 -q "artifacts/modules/sounds/low_high_tones.mp3";
-
-    # For Windows use mpg123 https://www.mpg123.de/download
-    mpg123 -q ${CHAT_RESPONSE_MP3};
+    spx synthesize --file ${CHAT_RESPONSE_FILE} --voice "${AZURE_VOICE}";   
     ((counter++));
     done;    
 }
@@ -497,16 +439,9 @@ function WE_HAVE_A_PROBLEM {
     counter="1";
     max_count="3";
 
-    # Remove Old Response
-    rm -f ${CHAT_RESPONSE_MP3}; 
-
-    # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang ${LANG} --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-
     until [ $counter -gt $max_count ]; do
-    # For Windows use mpg123 https://www.mpg123.de/download
     mpg123 -q "artifacts/modules/sounds/beep-11.mp3";
-    mpg123 -q ${CHAT_RESPONSE_MP3};
+    spx synthesize --file ${CHAT_RESPONSE_FILE} --voice "${AZURE_VOICE}";
     ((counter++));
     done;    
     mpg123 -q "artifacts/modules/sounds/Game_Over.mp3";
@@ -529,7 +464,7 @@ function CLEAN_UP {
     # play ready prompt
     # mpg123 -f -7500 "artifacts/sounds/jetsons-doorbell.mp3"; # Jetson's Doorbell
     mpg123 -q -f -7500 "artifacts/modules/sounds/magic.mp3"; # Nice Chime
-    rm -f *.png;
+    rm -f log-* *.png;
     
     # Clear Resources
     history -p;

@@ -75,15 +75,9 @@ function FORMAT_QUESTION {
     WRITE_TO_LOG;
 }
 
-function READ_RESPONSE {
-    # Remove Old Response
-    rm -f ${CHAT_RESPONSE_MP3}; 
-
+function READ_RESPONSE {  
     # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-
-    # For Windows use mpg123 https://www.mpg123.de/download
-    mpg123 -q ${CHAT_RESPONSE_MP3};
+    spx synthesize --file "${CHAT_RESPONSE_FILE}" --voice "$AZURE_VOICE";
 }
 
 function WRITE_TO_LOG {

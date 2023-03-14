@@ -180,7 +180,7 @@ function CALL_MODULES {
          ./artifacts/modules/meditation/meditation.sh;
     elif [[ $QUESTION == *"tore promotion"* ]] || [[ $QUESTION == *"tore Promotion"* ]] || [[ $QUESTION == *"y promo"* ]] || [[ $QUESTION == *"y Promo"* ]]; then 
          ./artifacts/modules/announcement/play_announcement.sh;
-    elif [[ $QUESTION == "null" ]]; then 
+    elif [[ $QUESTION == "null" ]] || [[ $QUESTION == "" ]]; then 
         greeting_file_name="Heard_Nothing.mp3";
         gtts-cli "Please Repeat, I Don't Think I Heard You Properly." --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
         mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 

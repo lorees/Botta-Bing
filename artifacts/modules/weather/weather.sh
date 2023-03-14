@@ -3,7 +3,7 @@
 # Gets the current weather based on ZIP Code from openweather maps
 # GET API KEY https://home.openweathermap.org/api_keys
 
-source ../../../params;
+source params;
 WEATHER_FILE="weather.json";
 TIME_INTERVAL="1800"; # Check Once 30mins
 
@@ -60,7 +60,7 @@ TIME_INTERVAL="1800"; # Check Once 30mins
     if [[ $WIND_DEG -ge 0 ]] && [[ $WIND_DEG -le 44 ]];then
         WIND_CARDINAL_DIRECTION="NORTH";
 
-    elif [[] $WIND_DEG -ge 45 ]] && [[ $WIND_DEG -le 89 ]];then
+    elif [[ $WIND_DEG -ge 45 ]] && [[ $WIND_DEG -le 89 ]];then
         WIND_CARDINAL_DIRECTION="NORTH-EAST";
 
     elif [[ $WIND_DEG -ge 90 ]] && [[ $WIND_DEG -le 134 ]];then

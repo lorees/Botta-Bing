@@ -19,7 +19,7 @@ function MEET_GREET {
     rm -rf cweather && ./artifacts/modules/weather/weather.sh; # Get local weather and cache it
     # Now Listening Message
     greeting_file_name="listening.mp3";
-    gtts-cli "Good ${TIME_GREETING} ${OWNER_NAME}, What can I help you with?" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    gtts-cli "Good ${TIME_GREETING}. This is  ${BOT_NAME}, What can I help you with?" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
     mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
 
@@ -180,8 +180,7 @@ function CALL_MODULES {
          ./artifacts/modules/meditation/meditation.sh;
     elif [[ $QUESTION == *"tore promotion"* ]] || [[ $QUESTION == *"tore Promotion"* ]] || [[ $QUESTION == *"y promo"* ]] || [[ $QUESTION == *"y Promo"* ]]; then 
          ./artifacts/modules/announcement/play_announcement.sh;
-    elif [[ $QUESTION == "null" ]] || [[ $QUESTION == "" ]]; then 
-        greeting_file_name="Heard_Nothing.mp3";
+    elif [[ $QUESTION == "null" ]] || [[ $QUESTION == "" ]]; then         greeting_file_name="Heard_Nothing.mp3";
         gtts-cli "Please Repeat, I Don't Think I Heard You Properly." --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
         mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
     else 

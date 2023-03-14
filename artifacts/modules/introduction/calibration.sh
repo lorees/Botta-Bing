@@ -6,7 +6,7 @@ START_MP3="startup.mp3";
 source params;
 ################# Functions Begin #################
 function CALIBRATION {
-    START_UP="Hello, This Is SERIAL NUMBER ONE, your computerized assistant. \
+    START_UP="Hello, This Is ${BOT_NAME}, your computerized assistant. \
         And It has been determined that this system needs sound and CPU calibration.\
         Please Stand By, it should only take a few minutes. \
         Now Starting Calibration. Thank you!";

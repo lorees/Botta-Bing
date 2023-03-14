@@ -1,6 +1,9 @@
 #!/usr/bin/env bash 
 # Loree Sebastien 3/13/2023
-# Botta-Bing AI Chatbot for Robots
+# Botta-Bing AI Chatbot for Robots _ Azure Cognitive Speech Version 
+# https://azure.microsoft.com/en-us/pricing/details/cognitive-services/speech-services/ 
+# https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/spx-basics?tabs=macOS%2Cterminal
+# https://learn.microsoft.com/en-us/azure/cognitive-services/speech-service/language-support?tabs=stt#text-to-speech
 # Joke Reference https://parade.com/1040121/marynliles/one-liners/
 
 WAV_FILE="sound_detected.wav";

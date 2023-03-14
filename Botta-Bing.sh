@@ -19,7 +19,7 @@ function MEET_GREET {
     rm -rf cweather && ./artifacts/modules/weather/weather.sh; # Get local weather and cache it
     # Now Listening Message
     greeting_file_name="listening.mp3";
-    gtts-cli "Good ${TIME_GREETING}. This is  ${BOT_NAME}, What can I help you with?" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
+    gtts-cli "Good ${TIME_GREETING}. This is ${BOT_NAME}, What can I help you with?" --lang ${LANG} --tld ${LOCALIZATION} --output "${greeting_file_name}";
     mpg123 -q "${greeting_file_name}" && rm -f "${greeting_file_name}"; 
 }
 
@@ -40,7 +40,7 @@ function LISTEN_TRANSCRIBE {
     # Check for silience, if silene is detected then end recording
     until [ "$var1" == "$var2" ]; do
         var1=`du "${WAV_FILE}"`;
-        sleep .8;
+        sleep 1;
         var2=`du "${WAV_FILE}"`;
     done
     echo "Silence Detected";
@@ -132,12 +132,11 @@ function READ_RESPONSE {
     mpg123 -q ${CHAT_RESPONSE_MP3};
     
     # Make Comments Randomly 1 out of 3 X's
-    RANGE="3"; 
+    RANGE="5"; 
     yes_no=$RANDOM;
     let "yes_no %= $RANGE";
 
-    echo $yes_no;
-    if [ $yes_no -gt 1 ];then 
+    if [ $yes_no = "1" ];then 
         MAKE_COMMENTS;
     fi
 }
@@ -149,7 +148,7 @@ function CALL_MODULES {
 
     GET_DATE_TIME; # Date_Time Module
     if [[ $QUESTION == *"y day"* ]] || [[ $QUESTION == *"hat's today"* ]] || [[ $QUESTION == *"today's dat"* ]] || [[ $QUESTION == *"today's date"* ]] || [[ $QUESTION == *"y date"* ]]  || [[ $QUESTION == *"hat day is it"* ]] || [[ $QUESTION == *"hat is the day"* ]] || [[ $QUESTION == *"hat is today"* ]]  ; then
-        echo "Today is the ${MY_DAY}th day of ${LONG_MONTH} in the year ${MY_YEAR}.">${CHAT_RESPONSE_FILE};
+        echo "Today is the ${MY_DAY}${DAY_POST_FIX} day of ${LONG_MONTH} in the year ${MY_YEAR}.">${CHAT_RESPONSE_FILE};
         PROCESS_RESPONSE;
         READ_RESPONSE;
     elif [[ $QUESTION == *"y time"* ]] || [[ $QUESTION == *"he time"* ]] || [[ $QUESTION == *"hat time is"* ]]; then
@@ -218,6 +217,18 @@ function FIND_DATE_INFO {
     DOW=$(date +%u); # Day of the week
     MY_YEAR=$(date +20%y); # tThe Year
     
+    if [[ $MY_DAY == 11 ]];then 
+        DAY_POST_FIX="th";    
+    elif [[ $MY_DAY == *1 ]];then 
+        DAY_POST_FIX="st";
+    elif [[ $MY_DAY == *2 ]];then 
+        DAY_POST_FIX="nd";
+    elif [[ $MY_DAY == *3 ]];then 
+        DAY_POST_FIX="rd";
+    else  
+        DAY_POST_FIX="th";
+    fi
+
     # Day of the Wook
     if [ $DOW -eq "01" ]; then
         LONG_DOW="Monday";

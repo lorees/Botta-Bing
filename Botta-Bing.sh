@@ -13,6 +13,18 @@ LINE="------------------------------";
 source params;
 AI_URL="https://api.openai.com/v1/completions";
 ################# Functions Begin #################
+function SET_SOX_EXE {
+    FIND_OS=$(uname); # Get OS
+
+    if [[ $FIND_OS == "Dar"* ]]; then
+        SOX_REC="rec"; # Mac
+    elif  [[ $FIND_OS == "CYG"* ]]; then
+        SOX_REC="sox -d"; # Windows
+    else 
+        SOX_REC="rec"; # Linux
+    fi
+}
+
 function MEET_GREET {
     clear;
     GET_DATE_TIME;
@@ -24,8 +36,9 @@ function MEET_GREET {
 }
 
 function LISTEN_TRANSCRIBE {
+    SET_SOX_EXE;
     # rec -b 16 ${WAV_FILE} channels 1 rate 16k silence 1 0.1 .3% -1 4.0 .1% &
-    rec -b 16 ${WAV_FILE} channels 1 rate 16k silence 1 0.1 1% -1 5.2 1% &
+    $SOX_REC -b 16 ${WAV_FILE} channels 1 rate 16k silence 1 0.1 1% -1 5.2 1% &
     p=$!
     
     # Check to see if the file is growing if it does then sound is detected

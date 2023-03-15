@@ -53,12 +53,13 @@ function LISTEN_TRANSCRIBE {
     # Check for silience, if silene is detected then end recording
     until [ "$var1" == "$var2" ]; do
         var1=`du "${WAV_FILE}"`;
-        sleep 1;
+        sleep 1.5;
         var2=`du "${WAV_FILE}"`;
     done
     echo "Silence Detected";
     kill $p;
-  
+    taskkill /IM sox.exe /F;
+    
     # Capture output
     ON_HOLD_MESSAGE; # On Hold Confirmation Message
     

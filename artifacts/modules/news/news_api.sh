@@ -48,7 +48,7 @@ function CHOOSE_CATEGORY {
     
     LATEST_NEWS_API_URL="https://newsdata.io/api/1/news?apikey=${NEWS_API}&country=${NEWS_COUNTRIES}&q=${NEWS_CATEGORY}&language=en";
     wget ${LATEST_NEWS_API_URL} -O "${NEWS_FILE}";
-    echo "It's Time For A Short News Bite For Category ${ARTICLE_CATEGORY} News." > ${CHAT_RESPONSE_FILE};
+    echo "It's Time For A $TYPE_OF_NEWS News Bite For Category ${ARTICLE_CATEGORY} News." > ${CHAT_RESPONSE_FILE};
     echo "Data Provided By, News Data dot I O." >> ${CHAT_RESPONSE_FILE};
 }
 
@@ -59,21 +59,24 @@ function PROCESS_ARTICLE {
     FIND_ARTICLE=$RANDOM;
     let "FIND_ARTICLE %= $RANGE";
 
-    MY_ARTICLE=`cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].description'`;
+    ARTICLE_SOURCE=$(cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].source_id');
+    ARTICLE_TITLE=$(cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].title');
     
+    # Read long or short news article.
+    if [ $READ_LONG_NEWS_ARTCLE = "false" ]; then
+        TYPE_OF_NEWS="Short";
+        MY_ARTICLE=`cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].description'`;
+    else
+        TYPE_OF_NEWS="";
+        MY_ARTICLE=`cat ${NEWS_FILE} | jq -r '.results['$FIND_ARTICLE'].content'`;
+    fi
+
     echo "News Category: ${ARTICLE_CATEGORY}";
     echo ${MY_ARTICLE} | sed 's/Read more\.\.\.//';
+    echo "Article Title: $ARTICLE_TITLE" >> ${CHAT_RESPONSE_FILE};
+    echo "Article Source: $ARTICLE_SOURCE" >> ${CHAT_RESPONSE_FILE};
     echo "$MY_ARTICLE" >> ${CHAT_RESPONSE_FILE};
-    PROCESS_RESPONSE;  
   }
-
-function PROCESS_RESPONSE {
-    # Remove Old Response
-    rm -f ${CHAT_RESPONSE_MP3}; 
-
-    # Make New Response
-    gtts-cli -f ${CHAT_RESPONSE_FILE} --lang en --tld ${LOCALIZATION} --output ${CHAT_RESPONSE_MP3};
-}
 
 function READ_ARTICLE {
     if [ "${MY_ARTICLE}" = "null" ]; then 
@@ -81,7 +84,7 @@ function READ_ARTICLE {
         exit;
     else
         mpg123 -q -f -10500 "artifacts/modules/sounds/this-just-in-980709-PREVIEW.mp3";
-        mpg123 -q ${CHAT_RESPONSE_MP3};
+        spx synthesize --file "${CHAT_RESPONSE_FILE}" --voice "${AZURE_VOICE}";
     fi
 }
 

@@ -218,7 +218,10 @@ function GET_DATE_TIME {
     fi
 
     # Convert 24hr Time to 12hr Time
-    if [ $MY_HOUR -gt 11 ]; then 
+    if [ $MY_HOUR -eq 12 ]; then
+        SUFFIX="PM ${TIME_ZONE}";
+        MY_HOUR="12";
+    elif [ $MY_HOUR -gt 12 ]; then 
         SUFFIX="PM ${TIME_ZONE}";
         MY_HOUR=$(($MY_HOUR-12));
     fi  

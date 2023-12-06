@@ -101,7 +101,7 @@ function ANSWER_QUESTION {
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer $OPENAI_API_KEY" \
         -d "{
-            \"model\": \"gpt-3.5-turbo\",
+            \"model\": \"gpt-3.5-turbo-1106\",
             \"messages\": [{\"role\": \"user\", \"content\": \"${QUERY_CHATBOT}\"}],
             \"temperature\": 0.6 
         }" > $OUTPUT_FILE;
@@ -128,31 +128,6 @@ function ANSWER_QUESTION {
     printf "\n\nANSWER:\n";
     printf "${CHAT_RESPONSE}";
 }
-
-# ANSWER_QUESTION() {
-#     curl "${AI_URL}" \
-#         -H "Content-Type: application/json" \
-#         -H "Authorization: Bearer $OPENAI_API_KEY" \
-#         -d "{
-#             \"model\": \"gpt-3.5-turbo\",
-#             \"messages\": [{\"role\": \"user\", \"content\": \"${QUERY_CHATBOT}\"}],
-#             \"temperature\": 0.6 
-#         }" > $OUTPUT_FILE;
-
-#     # Debugging: Print response from OpenAI
-#     echo "Response from OpenAI: $(cat ${OUTPUT_FILE})"
-
-#     # Get chat response text
-#     CHAT_RESPONSE=$(jq -r '.choices[0].message.content' "${OUTPUT_FILE}");
-#     echo "${CHAT_RESPONSE}" > "${CHAT_RESPONSE_FILE}";
-
-#     # Information Credits
-#     if [ "${CHATGPT_ANNOUNCEMENT}" = "true" ]; then
-#         spx synthesize --text "This Information Was Provided By ChatGPT." --voice "${AZURE_VOICE}"
-#     fi
-
-#     PROCESS_RESPONSE;
-# }
 
 function PROCESS_RESPONSE {
     # Remove Old Response

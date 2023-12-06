@@ -11,7 +11,7 @@ LINE="------------------------------";
 
 # Variables - Answer Query 
 source params;
-AI_URL="https://api.openai.com/v1/completions";
+AI_URL="https://api.openai.com/v1/chat/completions";
 ################# Functions Begin #################
 function SET_SOX_EXE {
     FIND_OS=$(uname); # Get OS
@@ -91,31 +91,28 @@ function OPENAI_WHISPER {
 
 function SEND_TO_CHATGPT {
     # Adjust Output
-    PREFIX="You:";
-    POSTFIX="?\nFriend:";
-    QUERY_CHATBOT="${PREFIX} ${QUESTION} ${POSTFIX}";
+    QUERY_CHATBOT="${QUESTION}";
     printf "\n\n${QUESTION}\n";
     ANSWER_QUESTION;
 }
 
 function ANSWER_QUESTION {
-    curl "${AI_URL}" \
+       curl "${AI_URL}" \
         -H "Content-Type: application/json" \
         -H "Authorization: Bearer $OPENAI_API_KEY" \
-        -d '{
-        "model": "text-davinci-003",
-        "prompt": "'"${QUERY_CHATBOT}"'",
-        "temperature": 0.2,
-        "max_tokens": 500,
-        "top_p": 1.0,
-        "frequency_penalty": 0.5,
-        "presence_penalty": 0.0,
-        "stop": ["You:"]
-    }'>${OUTPUT_FILE};
+        -d "{
+            \"model\": \"gpt-3.5-turbo\",
+            \"messages\": [{\"role\": \"user\", \"content\": \"${QUERY_CHATBOT}\"}],
+            \"temperature\": 0.6 
+        }" > $OUTPUT_FILE;
+
+    # Debugging: Print response from OpenAI
+    echo "Response from OpenAI: $(cat ${OUTPUT_FILE})"
 
     # Get chat response text
-    CHAT_RESPONSE=`cat chat_response.json | jq -r '.choices[0].text'`;
-    echo ${CHAT_RESPONSE}>${CHAT_RESPONSE_FILE};
+    CHAT_RESPONSE=$(jq -r '.choices[0].message.content' "${OUTPUT_FILE}");
+    echo "${CHAT_RESPONSE}" > "${CHAT_RESPONSE_FILE}";
+
     PROCESS_RESPONSE;
 
     # Information Credits
@@ -131,6 +128,31 @@ function ANSWER_QUESTION {
     printf "\n\nANSWER:\n";
     printf "${CHAT_RESPONSE}";
 }
+
+# ANSWER_QUESTION() {
+#     curl "${AI_URL}" \
+#         -H "Content-Type: application/json" \
+#         -H "Authorization: Bearer $OPENAI_API_KEY" \
+#         -d "{
+#             \"model\": \"gpt-3.5-turbo\",
+#             \"messages\": [{\"role\": \"user\", \"content\": \"${QUERY_CHATBOT}\"}],
+#             \"temperature\": 0.6 
+#         }" > $OUTPUT_FILE;
+
+#     # Debugging: Print response from OpenAI
+#     echo "Response from OpenAI: $(cat ${OUTPUT_FILE})"
+
+#     # Get chat response text
+#     CHAT_RESPONSE=$(jq -r '.choices[0].message.content' "${OUTPUT_FILE}");
+#     echo "${CHAT_RESPONSE}" > "${CHAT_RESPONSE_FILE}";
+
+#     # Information Credits
+#     if [ "${CHATGPT_ANNOUNCEMENT}" = "true" ]; then
+#         spx synthesize --text "This Information Was Provided By ChatGPT." --voice "${AZURE_VOICE}"
+#     fi
+
+#     PROCESS_RESPONSE;
+# }
 
 function PROCESS_RESPONSE {
     # Remove Old Response
